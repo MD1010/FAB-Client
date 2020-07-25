@@ -1,23 +1,26 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2017",
+    "module": "esnext",
     "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
+      "dom"
     ],
     "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "jsx": "react-native",
+    "outDir": "./build",
     "strict": true,
+    "noImplicitAny": false,
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react"
+    "noEmit": true
   },
   "include": [
     "src"

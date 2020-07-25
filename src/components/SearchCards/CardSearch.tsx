@@ -1,32 +1,43 @@
 import { AutoComplete } from 'antd';
+import axios from 'axios';
 import { debounce } from 'lodash';
 import React, { FC, useState } from 'react';
+import { CARDS_ENDPOINT } from 'src/consts/endpoints';
+import { UTCard } from 'src/interfaces/UTCard';
+import { Container } from 'src/styles/common/Container';
 
-const onSelect = (data: any) => {
-	console.log('onSelect', data);
-};
 const CardSearch: FC = () => {
-	const myOptions = [{ value: 'Burns Bay Road' }, { value: 'Downing Street' }, { value: 'Wall Street' }];
-	const [options, setOptions] = useState(myOptions);
-	const [value, setValue] = useState('');
+  const [options, setOptions] = useState<UTCard[]>([]);
+  // const [searchedText, setSearchedText] = useState('');
 
-	const filterCards = (searchText: string) => {
-		const filtered = myOptions.filter(
-			(option: { value: string }) => option.value.toUpperCase().indexOf(searchText.toUpperCase()) !== -1
-		);
-		setOptions(filtered);
-	};
-
-	return (
-		<AutoComplete
-			autoFocus
-			style={{ width: '200px' }}
-			options={options}
-			onSelect={onSelect}
-			onSearch={debounce(filterCards, 500)}
-			placeholder='input here'
-		/>
-	);
+  const onSelect = (data: any) => {
+    console.log('onSelect', data);
+  };
+  const searchCard = debounce(async (playerName: string) => {
+    if (playerName.length > 2) {
+      try {
+        const { data } = await axios.get(`${CARDS_ENDPOINT}/${playerName}`);
+        setOptions(data);
+      } catch (err) {
+        throw err;
+      }
+    }
+  }, 500);
+  const { Option } = AutoComplete;
+  return (
+    <Container>
+      <AutoComplete
+        autoFocus
+        style={{ width: '50vw' }}
+        onSelect={onSelect}
+        onChange={(playerName) => searchCard(playerName)}
+        {...options.map((card: UTCard) => (
+          <Option key={card.id} value={card.name}>
+            <div>asdasd</div>
+          </Option>
+        ))}
+      />
+    </Container>
+  );
 };
-
 export default CardSearch;
