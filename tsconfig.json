@@ -2,11 +2,9 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "esnext",
-    "lib": [
-      "dom"
-    ],
+    "lib": ["dom"],
     "allowJs": true,
-    "jsx": "react-native",
+    "jsx": "react",
     "outDir": "./build",
     "strict": true,
     "noImplicitAny": false,
@@ -22,7 +20,5 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }
