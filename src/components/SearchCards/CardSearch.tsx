@@ -1,47 +1,68 @@
 import { AutoComplete } from 'antd';
 import axios from 'axios';
-import { debounce, find } from 'lodash';
+import { debounce } from 'lodash';
 import React, { FC, useState } from 'react';
 import { CARDS_ENDPOINT } from 'src/consts/endpoints';
 import { UTCard } from 'src/interfaces/UTCard';
 import { Container } from 'src/styles/common/Container';
 
 const CardSearch: FC = () => {
-  console.log(1);
   const [options, setOptions] = useState<UTCard[]>([]);
-  // const [selectedValue, setSelectedValue] = useState<string | undefined>('');
-  const [textInput, setText] = useState<string | undefined>('');
+  const [isOpen, setOpen] = useState<boolean>(true);
+  const [searchedText, setSearchedText] = useState<string>('');
   const { Option } = AutoComplete;
+
   const onSelect = (id: string) => {
-    let selected = find(options, (card: UTCard) => card.id === +id)?.name;
-    setText(selected);
-    // setSelectedValue(selected);
-    setOptions([]);
+    setOpen(false);
   };
+
   const searchCard = debounce(async (playerName: string) => {
-    if (playerName.length > 2) {
+    setSearchedText(playerName);
+    if (playerName?.length > 2) {
       try {
         const { data } = await axios.get(`${CARDS_ENDPOINT}`, { params: { term: playerName } });
         setOptions(data);
+        data.length > 0 ? setOpen(true) : setOpen(false);
       } catch (err) {
         throw err;
       }
+    } else {
+      setOpen(false);
     }
-  }, 400);
+  }, 500);
+
+  const getLongestCardNameSubstring = (cardName: string) => {
+    let firstAppearnce = cardName.toLowerCase().indexOf(searchedText.toLowerCase());
+    if (cardName.length > 2 && firstAppearnce !== -1) {
+      return [firstAppearnce, firstAppearnce + searchedText.length];
+    }
+    return [-1, -1];
+  };
 
   return (
     <Container>
       <AutoComplete
-        open={options.length > 0}
+        placeholder='Search for FIFA 20 Player...'
+        allowClear
+        open={isOpen}
         autoFocus
+        onBlur={() => setOpen(false)}
         filterOption={false}
         style={{ width: '50vw' }}
         onSelect={(selected: string) => onSelect(selected)}
         onChange={(playerName) => searchCard(playerName)}
       >
         {options.map((card: UTCard) => (
-          <Option key={card.id} value={card.id.toString()}>
-            <div>{card.name}</div>
+          <Option key={card.id} value={card.name}>
+            <div>
+              {[...card.name].map((letter, index) =>
+                index >= getLongestCardNameSubstring(card.name)[0] && index < getLongestCardNameSubstring(card.name)[1] ? (
+                  <b>{letter}</b>
+                ) : (
+                  letter
+                )
+              )}
+            </div>
             <div>{card.rating}</div>
             <div>{card.id}</div>
           </Option>
@@ -49,34 +70,5 @@ const CardSearch: FC = () => {
       </AutoComplete>
     </Container>
   );
-  // const [result, setResult] = useState([]);
-
-  // const handleSearch = (value) => {
-  //   let res: any = [];
-
-  //   if (!value || value.indexOf('@') >= 0) {
-  //     res = [];
-  //   } else {
-  //     res = [{ name: 'gmail.com' }, { name: '163.com' }, { name: 'qq.com' }].map((domain) => `${value}@${domain.name}`);
-  //   }
-
-  //   setResult(res);
-  // };
-
-  // return (
-  //   <AutoComplete
-  //     style={{
-  //       width: 200,
-  //     }}
-  //     onSearch={handleSearch}
-  //     placeholder='input here'
-  //   >
-  //     {...result.map((email) => (
-  //       <Option key={email} value={email}>
-  //         {email}
-  //       </Option>
-  //     ))}
-  //   </AutoComplete>
-  // );
 };
 export default CardSearch;
