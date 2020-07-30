@@ -1,12 +1,11 @@
-import { AutoComplete } from 'antd';
+import { CircularProgress, TextField } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import axios from 'axios';
-import { debounce, find } from 'lodash';
-import React, { FC, useState } from 'react';
+import { debounce } from 'lodash';
+import React, { FC, useRef, useState } from 'react';
 import { CARDS_ENDPOINT } from 'src/consts/endpoints';
 import { UTCard } from 'src/interfaces/UTCard';
 import { Container } from 'src/styles/common/Container';
-import { Spinner } from '../common/LoadingSpinner';
-import { DataSourceItemType } from 'antd/lib/auto-complete';
 import { Flex } from 'src/styles/common/Flex';
 
 const CardSearch: FC = () => {
@@ -14,15 +13,13 @@ const CardSearch: FC = () => {
   const [isOpen, setOpen] = useState<boolean>(true);
   const [searchedText, setSearchedText] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
-  const { Option } = AutoComplete;
-
-  const onSelect = (id: any, sec) => {
-    console.log(id);
-    console.log(sec);
+  const onChange = (selectedCard) => {
+    console.log(selectedCard);
     setOpen(false);
   };
 
   const searchCard = debounce(async (playerName: string) => {
+    console.log(playerName);
     setSearchedText(playerName);
     if (playerName?.length > 2) {
       try {
@@ -47,15 +44,63 @@ const CardSearch: FC = () => {
     return [-1, -1];
   };
 
-  // const getCardNameById = (id: number): string => {
-  //   let resultToDisplay = find(options, (option) => option.id === id);
-  //   return resultToDisplay ? resultToDisplay.name : '';
-  // };
-
   return (
     <Flex>
       <Container>
-        <AutoComplete
+        <Autocomplete
+          options={options}
+          freeSolo
+          fullWidth
+          selectOnFocus
+          handleHomeEndKeys
+          open={isOpen}
+          noOptionsText={false}
+          getOptionSelected={(option, value) => option.id === value.id}
+          getOptionLabel={(option) => option.name}
+          style={{ width: 500 }}
+          spellCheck={false}
+          onChange={(e, selectedCard) => onChange(selectedCard)}
+          onInputChange={(e, val) => searchCard(val)}
+          renderOption={(card: UTCard) => (
+            <Flex>
+              <div>
+                {[...card.name].map((letter, index) =>
+                  index >= getLongestCardNameSubstring(card.name)[0] && index < getLongestCardNameSubstring(card.name)[1] ? (
+                    <b key={index}>{letter}</b>
+                  ) : (
+                    letter
+                  )
+                )}
+              </div>
+              <div>{card.rating}</div>
+              <div>{card.id}</div>
+            </Flex>
+          )}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label='Search FUT 20 Players...'
+              margin='normal'
+              variant='outlined'
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <>
+                    {isLoading ? <CircularProgress size={20} /> : null}
+                    {params.InputProps.endAdornment}
+                  </>
+                ),
+              }}
+            />
+          )}
+        />
+      </Container>
+    </Flex>
+  );
+};
+export default CardSearch;
+/**
+ * <AutoComplete
           placeholder='Search for FIFA 20 Player...'
           allowClear
           open={isOpen}
@@ -83,9 +128,4 @@ const CardSearch: FC = () => {
             </Option>
           ))}
         </AutoComplete>
-      </Container>
-      <Container>{isLoading ? <Spinner /> : null}</Container>
-    </Flex>
-  );
-};
-export default CardSearch;
+ */
