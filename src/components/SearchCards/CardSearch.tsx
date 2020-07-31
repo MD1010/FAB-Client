@@ -2,29 +2,44 @@ import { CircularProgress, TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import axios from 'axios';
 import { debounce } from 'lodash';
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { CARDS_ENDPOINT } from 'src/consts/endpoints';
 import { UTCard } from 'src/interfaces/UTCard';
 import { Container } from 'src/styles/common/Container';
 import { Flex } from 'src/styles/common/Flex';
 
 const CardSearch: FC = () => {
+  console.log('rendered');
   const [options, setOptions] = useState<UTCard[]>([]);
   const [isOpen, setOpen] = useState<boolean>(true);
   const [searchedText, setSearchedText] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
+  // const [isSelected, setSelected] = useState<boolean>(false);
+  let ok = false;
   const onChange = (selectedCard) => {
-    console.log(selectedCard);
+    // console.log(selectedCard);
     setOpen(false);
+    selectedCard ? (ok = true) : (ok = false);
   };
 
-  const searchCard = debounce(async (playerName: string) => {
-    console.log(playerName);
-    setSearchedText(playerName);
-    if (playerName?.length > 2) {
+  // useEffect(() => {
+  //   console.log('in use effect');
+  //   // if (isSelected || !searchedText) {
+  //   //   ok = false;
+  //   // }
+  //   // ok = false;
+
+  //   // searchCard();
+  // }, [searchedText, isSelected]);
+
+  const searchCard = debounce(async (val) => {
+    setSearchedText(val);
+    console.log('is selected', ok);
+    if (val?.length > 2 && !ok) {
       try {
         setLoading(true);
-        const { data } = await axios.get(`${CARDS_ENDPOINT}`, { params: { term: playerName } });
+        console.log('in search card');
+        const { data } = await axios.get(`${CARDS_ENDPOINT}`, { params: { term: val } });
         setLoading(false);
         setOptions(data);
         data.length > 0 ? setOpen(true) : setOpen(false);
@@ -60,7 +75,10 @@ const CardSearch: FC = () => {
           style={{ width: 500 }}
           spellCheck={false}
           onChange={(e, selectedCard) => onChange(selectedCard)}
-          onInputChange={(e, val) => searchCard(val)}
+          onInputChange={(e, val) => {
+            console.log('in method on input change', val);
+            searchCard(val);
+          }}
           renderOption={(card: UTCard) => (
             <Flex>
               <div>
