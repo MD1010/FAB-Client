@@ -46,7 +46,6 @@ const CardSearch: FC = () => {
   }, 500);
 
   const getLongestCardNameSubstring = (cardName: string) => {
-    console.log(options);
     let firstAppearnce = cardName?.toLowerCase().indexOf(searchedText?.toLowerCase());
     if (cardName.length > 2 && firstAppearnce !== -1) {
       return [firstAppearnce, firstAppearnce + searchedText.length];
@@ -66,10 +65,13 @@ const CardSearch: FC = () => {
           open={isOpen}
           noOptionsText={false}
           getOptionLabel={(option) => `${option.name} (${option.rating})`}
-          style={{ width: 500 }}
+          style={{ width: 500, padding: 10 }}
           spellCheck={false}
           onChange={(e, selectedCard) => onChange(selectedCard)}
           onInputChange={(e, val) => {
+            if (!val) {
+              setOpen(false);
+            }
             searchCard(val);
           }}
           renderOption={(card: UTCard) => (
@@ -103,8 +105,11 @@ const CardSearch: FC = () => {
                   </div>
                 </div>
 
-                <div className='rev'>{card.revision}</div>
-                <RatingSquare revision={card.revision}>{card.rating}</RatingSquare>
+                <div style={{ fontSize: '0.65em', color: 'rgb(172, 165, 154)' }} className='rev'>
+                  {card.revision.toUpperCase()}
+                </div>
+                {console.log()}
+                <RatingSquare>{card.rating}</RatingSquare>
               </CardResult>
             </>
           )}
