@@ -32,13 +32,10 @@ const CardSearch: FC = () => {
   }, [searchedText]);
 
   const searchCard = debounce(async (val) => {
-    console.log('new search=', val);
     setSearchedText(val);
     if (val?.length > 2 && !isSelected.current) {
       setLoading(true);
-      console.log('sending to server', val);
       const [data, error] = await makeRequest({ url: `${CARDS_ENDPOINT}`, params: { term: val } });
-      console.log(data);
       if (error) throw error;
       setLoading(false);
       setOptions(data);
@@ -80,9 +77,7 @@ const CardSearch: FC = () => {
           onChange={(e, selectedCard) => onChange(selectedCard)}
           onInputChange={(e, val) => {
             val = val.trim();
-            // console.log(isOpen, val);
             if (!val || val.length < 3) {
-              // setOptions([]);
               setOpen(false);
             }
             searchCard(val);
