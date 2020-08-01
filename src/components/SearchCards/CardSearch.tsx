@@ -6,17 +6,16 @@ import { CARDS_ENDPOINT } from 'src/consts/endpoints';
 import { UTCard } from 'src/interfaces/UTCard';
 import { Container } from 'src/styles/common/Container';
 import { Flex } from 'src/styles/common/Flex';
-import { Image } from 'src/styles/common/Image';
 import { makeRequest } from '../common/makeRequest';
-import { CardResult } from './styles/CardResult.style';
-import { RatingSquare } from './styles/RatingSquare.style';
+import { CardImage, CardPosition, CardResult, CardRevision, useStyles, RatingSquare } from './CardResult.style';
 
 const CardSearch: FC = () => {
   const [options, setOptions] = useState<UTCard[]>([]);
   const [isOpen, setOpen] = useState<boolean>(true);
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [searchedText, setSearchedText] = useState<string>('');
+  const [searchedText, setSearchedText] = useState<string | null>(null);
   const isSelected = useRef(false);
+  const classes = useStyles();
 
   const onChange = (selectedCard) => {
     console.log(selectedCard);
@@ -33,10 +32,13 @@ const CardSearch: FC = () => {
   }, [searchedText]);
 
   const searchCard = debounce(async (val) => {
+    console.log('new search=', val);
     setSearchedText(val);
     if (val?.length > 2 && !isSelected.current) {
       setLoading(true);
+      console.log('sending to server', val);
       const [data, error] = await makeRequest({ url: `${CARDS_ENDPOINT}`, params: { term: val } });
+      console.log(data);
       if (error) throw error;
       setLoading(false);
       setOptions(data);
@@ -46,10 +48,14 @@ const CardSearch: FC = () => {
   }, 500);
 
   const getLongestCardNameSubstring = (cardName: string) => {
-    let firstAppearnce = cardName?.toLowerCase().indexOf(searchedText?.toLowerCase());
-    if (cardName.length > 2 && firstAppearnce !== -1) {
-      return [firstAppearnce, firstAppearnce + searchedText.length];
+    let name = cardName.trim();
+    if (searchedText) {
+      let firstAppearnce = name?.toLowerCase().indexOf(searchedText.toLowerCase());
+      if (name.length > 2 && firstAppearnce !== -1) {
+        return [firstAppearnce, firstAppearnce + searchedText.length];
+      }
     }
+
     return [];
   };
 
@@ -57,19 +63,26 @@ const CardSearch: FC = () => {
     <Flex>
       <Container>
         <Autocomplete
+          classes={classes}
           options={options}
-          freeSolo
           fullWidth
           selectOnFocus
           handleHomeEndKeys
+          filterOptions={(option, state) => option}
           open={isOpen}
+          onBlur={() => setOptions([])}
+          onClose={() => setOpen(false)}
+          onOpen={() => !isOpen && options.length && searchedText?.trim() && searchedText.trim().length > 2 && setOpen(true)}
           noOptionsText={false}
           getOptionLabel={(option) => `${option.name} (${option.rating})`}
           style={{ width: 500, padding: 10 }}
           spellCheck={false}
           onChange={(e, selectedCard) => onChange(selectedCard)}
           onInputChange={(e, val) => {
-            if (!val) {
+            val = val.trim();
+            // console.log(isOpen, val);
+            if (!val || val.length < 3) {
+              // setOptions([]);
               setOpen(false);
             }
             searchCard(val);
@@ -77,11 +90,11 @@ const CardSearch: FC = () => {
           renderOption={(card: UTCard) => (
             <>
               <CardResult>
-                <Image className='club' src={card.clubImage} width={25} height={25} style={{ marginRight: '5px' }} />
-                <Image className='nat' src={card.nationImage} width={25} height={20} style={{ marginRight: '5px' }} />
-                <Image className='nat' src={card.playerImage} width={40} height={40} style={{ marginRight: '5px' }} />
+                <CardImage src={card.clubImage} />
+                <CardImage src={card.nationImage} />
+                <CardImage src={card.playerImage} width={40} height={40} />
 
-                <div className='name' style={{ display: 'flex', flex: 1 }}>
+                <Flex justifyStart className='card-name'>
                   <span>
                     {[...card.name].map((letter, index) =>
                       index >= getLongestCardNameSubstring(card.name)[0] && index < getLongestCardNameSubstring(card.name)[1] ? (
@@ -91,23 +104,10 @@ const CardSearch: FC = () => {
                       )
                     )}
                   </span>
-                  <div
-                    className='pos'
-                    style={{
-                      marginLeft: '2px',
-                      fontSize: '10px',
-                      color: 'rgb(172, 165, 154)',
-                      display: 'grid',
-                      placeItems: 'center',
-                    }}
-                  >
-                    ({card.position})
-                  </div>
-                </div>
+                  <CardPosition>({card.position})</CardPosition>
+                </Flex>
 
-                <div style={{ fontSize: '0.65em', color: 'rgb(172, 165, 154)' }} className='rev'>
-                  {card.revision.toUpperCase()}
-                </div>
+                <CardRevision>{card.revision.toUpperCase()}</CardRevision>
                 {card.revision ? <RatingSquare revision={card.revision}>{card.rating}</RatingSquare> : null}
               </CardResult>
             </>
@@ -119,7 +119,6 @@ const CardSearch: FC = () => {
               label='Card To Search'
               margin='normal'
               variant='outlined'
-              InputLabelProps={{ shrink: true }}
               InputProps={{
                 ...params.InputProps,
 
