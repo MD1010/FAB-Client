@@ -108,8 +108,7 @@ const CardSearch: FC = () => {
                 <div style={{ fontSize: '0.65em', color: 'rgb(172, 165, 154)' }} className='rev'>
                   {card.revision.toUpperCase()}
                 </div>
-                {console.log()}
-                <RatingSquare>{card.rating}</RatingSquare>
+                {card.revision ? <RatingSquare revision={card.revision}>{card.rating}</RatingSquare> : null}
               </CardResult>
             </>
           )}

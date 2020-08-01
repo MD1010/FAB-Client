@@ -1,18 +1,19 @@
-import { revisionColors } from './CardRevisionColors.style';
+import { revisionColors } from '../../../consts/RevisionCards';
 import styled from 'styled-components';
-import { CardRevisionColorEnum } from 'src/types/CardRevisionColor';
+
 interface RatingSquareProps {
   revision?: string;
 }
-export const RatingSquare = styled.div<RatingSquareProps>`
-  padding: 4px;
-  border-radius: 15px;
-  /* color: rgb(232, 230, 227); */
-  /* color: ${(props) => props.revision}; */
-  width: 2em;
+export const RatingSquare = styled.div`
+  border-radius: 50%;
+  width: 1.9em;
+  height: 1.9em;
   display: grid;
-  font-weight:bold;
-  font-size:1.2em;
+  font-weight: bold;
+  margin-left: 4px;
+  border:1px dashed black;
   place-content: center;
-   background-color: initial; 
+  // TODO : fill the colors in the next year
+  /* background: ${(props: RatingSquareProps) => props.revision && revisionColors[props.revision.toLowerCase()]?.background}; */
+  /* color: ${(props: RatingSquareProps) => props.revision && revisionColors[props.revision.toLowerCase()]?.foreground}; */
 `;
