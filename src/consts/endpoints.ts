@@ -1,4 +1,4 @@
-import { SERVER_IP } from './ServerIP';
+import { SERVER_URL } from './ServerUrl';
 
-const BASE_API = `${SERVER_IP}/api`;
-export const CARDS_ENDPOINT = `${BASE_API}/players`;
+const WEB_APP_API = `${SERVER_URL}/api/web-app`;
+export const CARDS_ENDPOINT = `${WEB_APP_API}/entities/cards`;
