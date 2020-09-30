@@ -1,13 +1,17 @@
-import 'antd/dist/antd.css';
 import React from 'react';
-import './App.scss';
-import NewLogin from './components/WebAppLogin/NewAccountForm/NewLogin';
+import './App.css';
+import ManageAccounts from './components/ManageAccounts/ManageAccounts';
+import AccountProvider from './context/AccountsContext';
+import EntitiesContextProvider from './context/EntitiesContext';
+
 const App = () => {
   return (
     <div className='App'>
-      {/* <Logs /> */}
-      <NewLogin />
-      {/* <CardSearch /> */}
+      <AccountProvider>
+        <EntitiesContextProvider>
+          <ManageAccounts />
+        </EntitiesContextProvider>
+      </AccountProvider>
     </div>
   );
 };
