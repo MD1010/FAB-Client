@@ -1,16 +1,3 @@
-body {
-  background: #0e101c;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', sans-serif;
-}
-
-h1 {
-  font-weight: 500;
-  // text-transform: uppercase;
-  text-align: center;
-  // border-bottom: 1px solid rgba(79, 98, 148, 0.4);
-}
-
 .form {
   background: #0e101c;
   max-width: 400px;
@@ -35,6 +22,7 @@ input {
   padding: 10px 15px;
   margin-bottom: 10px;
   font-size: 14px;
+  font-weight: bold;
 }
 
 label {
@@ -43,10 +31,28 @@ label {
   display: block;
   margin-bottom: 10px;
   margin-top: 20px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 200;
   color: #0e101c;
-  font-weight: 500;
+  font-weight: bold;
+}
+
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.modal-form {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 25px 35px;
+  width: 20vw;
+  height: 40vh;
+}
+.MuiAlert-icon {
+  width: 35px;
+  margin-right: 10px;
 }
 
 .submit-form {
@@ -60,42 +66,5 @@ label {
   font-weight: 500;
   width: 100%;
   border-radius: 25px;
-}
-
-button[type='submit']:active,
-input[type='button']:active,
-input[type='submit']:active {
-  transition: 0.5s all;
-  transform: scale(0.95);
-}
-
-input:disabled {
-  opacity: 0.4;
-}
-
-input[type='button']:hover {
-  transition: 0.3s all;
-}
-
-button[type='button'] {
-  display: block;
-  appearance: none;
-  background: #333;
-  color: white;
-  border: none;
-  text-transform: uppercase;
-  padding: 10px 20px;
-  border-radius: 4px;
-}
-
-.modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.modal-form {
-  background-color: #fff;
-  border-radius: 15px;
-  padding: 25px 35px;
-  width: 15vw;
+  transition: width 2s;
 }
