@@ -48,7 +48,8 @@ label {
   border-radius: 15px;
   padding: 25px 35px;
   width: 20vw;
-  height: 40vh;
+  height: 45vh;
+  position: relative;
 }
 .MuiAlert-icon {
   width: 35px;
@@ -60,11 +61,12 @@ label {
   color: white;
   text-transform: uppercase;
   border: none;
-  margin-top: 30px;
+  position: absolute;
+  bottom: 50px;
   padding: 10px;
   font-size: 16px;
   font-weight: 500;
-  width: 100%;
+  width: 80%;
   border-radius: 25px;
   transition: width 2s;
 }

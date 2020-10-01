@@ -3,7 +3,7 @@ import { SocketManager } from '../../common/sockerManger';
 
 const Logs: FC = () => {
   const listenToEvents = (socket: SocketIOClient.Socket) => {
-    socket.emit('join', 'md10fifa@gmail.com');
+    socket.emit('join', 'owner');
     socket.on('search', (event) => console.log(event));
     socket.on('message', (msg) => console.log(msg));
   };

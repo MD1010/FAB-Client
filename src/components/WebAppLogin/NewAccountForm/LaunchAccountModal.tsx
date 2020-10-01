@@ -1,61 +1,112 @@
 import Alert from '@material-ui/lab/Alert/Alert';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Spinner from 'src/components/shared/Spinner';
+import { unregister } from 'src/serviceWorker';
 import './NewLogin.style.scss';
 
-type Inputs = {
+type FormFields = {
   email: string;
   password: string;
+  code: string;
 };
 
-export default function LaunchAccountModal() {
-  const { register, handleSubmit, errors, reset, formState } = useForm<Inputs>({ mode: 'onChange' });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [loginMessage, setLoginMessage] = useState<string | null>(null);
-  const spinner = isLoading && <Spinner />;
+interface ILogin {
+  email: string;
+  password: string;
+}
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    reset();
+interface ICode {
+  code: string;
+}
+enum LoginState {
+  unAuthenticated,
+  WaitingForCode,
+  LoggedIn,
+}
+export default function LaunchAccountModal(props) {
+  const { register, handleSubmit, errors, unregister } = useForm<FormFields>({ mode: 'onChange' });
+  const [loginMessage, setInfoMessage] = useState<string | null>(null);
+  const [loginState, setLoginState] = useState<LoginState>(LoginState.unAuthenticated);
+  const { isLoading, setIsLoading } = props;
+
+  const launchAccount: SubmitHandler<FormFields> = (data: ILogin) => {
+    console.log(2);
+    console.log(data);
     setIsLoading(true);
-    setLoginMessage('Loging into your UT account. This can take a while...');
+    setTimeout(() => {
+      setIsLoading(false);
+      setLoginState(LoginState.WaitingForCode);
+
+      setInfoMessage('Enter the code you received');
+    }, 1000);
+    // api call
+    // setCredentialsCorrect(true)
+  };
+  // console.log(11);
+  
+  // unregister('email');
+  // unregister('password');
+  const sendCode: SubmitHandler<FormFields> = (data: ICode) => {
+    console.log(1);
+
+    console.log(data);
+
+    setIsLoading(true);
+    setInfoMessage('Launching Web App. Please wait...');
+    setLoginState(LoginState.LoggedIn);
   };
 
-  const loader = () => isLoading && <Spinner />;
+  const loginWithEmailAndPassword = () => (
+    <form onSubmit={handleSubmit(launchAccount)} autoComplete='off'>
+      <label>Email</label>
+      <input name='email' placeholder='youremail@email.com' ref={register({ required: true })} />
+      {errors.email && <div className='error-message'>This field is required</div>}
 
-  const accountLoginForm = () =>
-    isLoading ? null : (
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-        <label>Email</label>
-        <input name='email' placeholder='youremail@email.com' ref={register({ required: true })} />
-        {errors.email && <div className='error-message'>This field is required</div>}
-        <label>Password</label>
-        <input name='password' type='password' ref={register({ required: true })} onChange={() => console.log(formState)} />
-        {errors.password && <div className='error-message'>This field is required</div>}
+      <label>Password</label>
+      <input name='password' type='password' ref={register({ required: true })} />
+      {errors.password && <div className='error-message'>This field is required</div>}
 
-        <button type='submit' className='submit-form' disabled={!formState.isValid || isLoading}>
-          Login
-        </button>
-      </form>
-    );
+      <button type='submit' className='submit-form'>
+        Login
+      </button>
+    </form>
+  );
 
-  const infoMessage = () =>
-    loginMessage ? (
-      <Alert severity='info' style={{ marginBottom: '20px' }}>
-        {loginMessage}
-      </Alert>
-    ) : null;
+  const loginWithAuthCode = () => (
+    <form onSubmit={handleSubmit(sendCode)} autoComplete='off'>
+      <label>Code</label>
+      <input name='code' type='password' ref={register({ required: true })} />
+      {errors.code && <div className='error-message'>This field is required</div>}
+
+      <button type='submit' className='submit-form'>
+        Send Code
+      </button>
+    </form>
+  );
+
+  const accountLoginForm = () => {
+    switch (loginState) {
+      case LoginState.unAuthenticated: {
+        if (!isLoading) return loginWithEmailAndPassword();
+        break;
+      }
+      case LoginState.WaitingForCode: {
+        if (!isLoading) return loginWithAuthCode();
+        break;
+      }
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
-      {/* <Alert severity='info' style={{ marginBottom: '20px' }}>
-          Loging into your UT account. This can take a while...
-        </Alert> */}
-      {/* {<div style={{ marginTop: '20px' }}>
-            <Spinner />
-          </div>} */}
-      {infoMessage()}
+      {loginMessage ? (
+        <Alert severity={'info'} style={{ marginBottom: '20px' }}>
+          {loginMessage}
+        </Alert>
+      ) : null}
       {accountLoginForm()}
-      {loader()}
     </>
   );
 }
