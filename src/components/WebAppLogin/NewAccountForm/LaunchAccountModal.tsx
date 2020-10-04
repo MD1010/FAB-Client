@@ -1,7 +1,7 @@
 import Alert from '@material-ui/lab/Alert/Alert';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { unregister } from 'src/serviceWorker';
+import { socket } from 'src/common/socketManger';
 import './NewLogin.style.scss';
 
 type FormFields = {
@@ -10,14 +10,6 @@ type FormFields = {
   code: string;
 };
 
-interface ILogin {
-  email: string;
-  password: string;
-}
-
-interface ICode {
-  code: string;
-}
 enum LoginState {
   unAuthenticated,
   WaitingForCode,
@@ -29,9 +21,11 @@ export default function LaunchAccountModal(props) {
   const [loginState, setLoginState] = useState<LoginState>(LoginState.unAuthenticated);
   const { isLoading, setIsLoading } = props;
 
-  const launchAccount: SubmitHandler<FormFields> = (data: ILogin) => {
-    console.log(2);
-    console.log(data);
+  const launchAccount: SubmitHandler<FormFields> = (data) => {
+    socket?.on('waiting_for_code', (data) => {
+      console.log('YES!!!', data);
+    });
+
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
@@ -39,18 +33,10 @@ export default function LaunchAccountModal(props) {
 
       setInfoMessage('Enter the code you received');
     }, 1000);
-    // api call
-    // setCredentialsCorrect(true)
   };
-  // console.log(11);
-  
-  // unregister('email');
-  // unregister('password');
-  const sendCode: SubmitHandler<FormFields> = (data: ICode) => {
-    console.log(1);
 
-    console.log(data);
-
+  const sendCode: SubmitHandler<FormFields> = (data) => {
+    socket?.emit('code', data);
     setIsLoading(true);
     setInfoMessage('Launching Web App. Please wait...');
     setLoginState(LoginState.LoggedIn);
@@ -72,17 +58,21 @@ export default function LaunchAccountModal(props) {
     </form>
   );
 
-  const loginWithAuthCode = () => (
-    <form onSubmit={handleSubmit(sendCode)} autoComplete='off'>
-      <label>Code</label>
-      <input name='code' type='password' ref={register({ required: true })} />
-      {errors.code && <div className='error-message'>This field is required</div>}
+  const loginWithAuthCode = () => {
+    unregister('email');
+    unregister('password');
+    return (
+      <form onSubmit={handleSubmit(sendCode)} autoComplete='off'>
+        <label>Code</label>
+        <input name='code' type='password' ref={register({ required: true })} />
+        {errors.code && <div className='error-message'>This field is required</div>}
 
-      <button type='submit' className='submit-form'>
-        Send Code
-      </button>
-    </form>
-  );
+        <button type='submit' className='submit-form'>
+          Send Code
+        </button>
+      </form>
+    );
+  };
 
   const accountLoginForm = () => {
     switch (loginState) {

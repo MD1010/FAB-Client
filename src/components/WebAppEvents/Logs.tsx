@@ -1,14 +1,13 @@
 import React, { FC } from 'react';
-import { SocketManager } from '../../common/sockerManger';
+import { socket } from 'src/common/socketManger';
 
 const Logs: FC = () => {
-  const listenToEvents = (socket: SocketIOClient.Socket) => {
-    socket.emit('join', 'owner');
-    socket.on('search', (event) => console.log(event));
-    socket.on('message', (msg) => console.log(msg));
+  const listenToEvents = () => {
+    socket?.emit('join', 'owner');
+    socket?.on('search', (event) => console.log(event));
+    socket?.on('message', (msg) => console.log(msg));
   };
-  const socket = new SocketManager().socket;
-  listenToEvents(socket);
+  socket && listenToEvents();
   //   const [logs, setLogs] = useState<any>([]);
   return <div>Logs Component</div>;
 };
