@@ -1,12 +1,13 @@
 import 'antd/dist/antd.css';
 import React from 'react';
 import './App.css';
-import CardSearch from './components/SearchCards/CardSearch';
+
+import LoginPage from './components/Login/LoginPage';
 
 const App = () => {
   return (
     <div className='App'>
-      <CardSearch />
+      <LoginPage />
     </div>
   );
 };
