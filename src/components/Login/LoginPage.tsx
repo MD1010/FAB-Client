@@ -1,12 +1,35 @@
 import React, { useState } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@material-ui/core';
+import { makeRequest } from '../common/makeRequest';
+import { LOGIN_ENDPOINT } from '../../consts/endpoints';
+import { RequestMethod } from 'src/types/RequestMethod';
 
 export default function LoginPage() {
-  const [userName, setUserName] = useState('');
-  const [Password, setPassword] = useState('');
   const { register, handleSubmit, errors } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const [loginError, setLoginError] = useState('');
+
+  interface IloginFields {
+    userName: string;
+    password: string;
+  }
+  const onSubmit = async (loginFields) => {
+    let userName: string = loginFields.UserName;
+    let password: string = loginFields.Password;
+    const [data, error] = await makeRequest({
+      url: LOGIN_ENDPOINT,
+      method: RequestMethod.POST,
+      body: { username: userName, password: password },
+    });
+    if (data) {
+      localStorage.setItem('jwtAccess', data.access_token);
+      localStorage.setItem('jwtRefresh', data.refresh_token);
+      localStorage.setItem('userName', userName);
+    } else {
+      setLoginError(error);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -42,7 +65,10 @@ export default function LoginPage() {
       )}
       <Button type='submit' variant='contained'>
         Login
-      </Button>{' '}
+      </Button>
+      {loginError && (
+        <p>Login in failed, check your cradentials and try again!</p>
+      )}
     </form>
   );
 }
