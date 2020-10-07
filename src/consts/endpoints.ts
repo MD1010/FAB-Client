@@ -5,4 +5,4 @@ const WEB_APP_API = `${SERVER_URL}/api/web-app`;
 export const CARDS_ENDPOINT = `${WEB_APP_API}/entities/cards`;
 // launch account
 export const LAUNCH_ACCOUNT = `${WEB_APP_API}/login/launch`;
-export const LOGIN_WITH_CODE = `${WEB_APP_API}/login/send-status-code`;
+export const LAUNCH_WITH_CODE = `${WEB_APP_API}/login/launch-with-code`;

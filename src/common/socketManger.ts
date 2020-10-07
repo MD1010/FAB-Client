@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import { SERVER_URL } from '../consts/ServerUrl';
 
-export class SocketManager {
+class SocketManager {
   private _socket: SocketIOClient.Socket | null = null;
   private static socketInstance: SocketManager;
   get socket() {
