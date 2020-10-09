@@ -4,24 +4,14 @@ import { Button, TextField } from '@material-ui/core';
 import { makeRequest } from '../common/makeRequest';
 import { LOGIN_ENDPOINT } from '../../consts/endpoints';
 import { RequestMethod } from 'src/types/RequestMethod';
-import IloginFields from './interfaces/IloginFields.interface';
-
-const setLocalStorageFields = (
-  access_token: string,
-  refresh_token: string,
-  userName: string
-) => {
-  localStorage.setItem('jwtAccess', access_token);
-  localStorage.setItem('jwtRefresh', refresh_token);
-  localStorage.setItem('userName', userName);
-};
+import { setLocalStorageFields } from './utils/loginUtils';
 
 export default function LoginPage() {
   const { register, handleSubmit, errors } = useForm();
   const [loginError, setLoginError] = useState('');
-  const onSubmit = async (loginFields: IloginFields) => {
-    let userName: string = loginFields.UserName;
-    let password: string = loginFields.Password;
+  const onSubmit = async (loginFields) => {
+    let userName: string = loginFields.username;
+    let password: string = loginFields.password;
     const [data, error] = await makeRequest({
       url: LOGIN_ENDPOINT,
       method: RequestMethod.POST,
@@ -29,6 +19,7 @@ export default function LoginPage() {
     });
     if (data) {
       setLocalStorageFields(data.access_token, data.refresh_token, userName);
+      console.log(localStorage.getItem('jwtAccess'));
     } else {
       setLoginError(error);
     }
@@ -40,17 +31,17 @@ export default function LoginPage() {
         id='standart-basic'
         label='UserName'
         type='text'
-        name='UserName'
-        inputRef={register({ required: true, maxLength: 80 })}
+        name='username'
+        inputRef={register({ required: true })}
       />
       {errors.UserName && errors.UserName.type === 'required' && (
         <p>UserName is required</p>
       )}
       <TextField
         id='standart-basic'
-        label='Password'
-        type='text'
-        name='Password'
+        label='password'
+        type='password'
+        name='password'
         inputRef={register({
           required: true,
         })}
