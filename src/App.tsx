@@ -1,11 +1,13 @@
 import 'antd/dist/antd.css';
 import React from 'react';
 import './App.scss';
-import Logs from './components/WebAppEvents/Logs';
+import NestedGrid from './components/homePageGrid/GridPage';
+
 const App = () => {
   return (
     <div className='App'>
-      <Logs />
+      <NestedGrid />
+      {/* <Logs /> */}
       {/* <NewLogin /> */}
       {/* <CardSearch /> */}
     </div>
