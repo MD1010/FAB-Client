@@ -1,0 +1,72 @@
+.form {
+  background: #0e101c;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.error-message {
+  color: #bf1650;
+  font-weight: 500;
+}
+
+.error-message::before {
+  content: '⚠ ';
+}
+
+input {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid rgba(79, 98, 148, 0.2);
+  border-radius: 25px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+label {
+  line-height: 2;
+  text-align: left;
+  display: block;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  font-size: 13px;
+  font-weight: 200;
+  color: #0e101c;
+  font-weight: bold;
+}
+
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.modal-form {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 25px 35px;
+  width: 20vw;
+  height: 45vh;
+  position: relative;
+}
+.MuiAlert-icon {
+  width: 35px;
+  margin-right: 10px;
+}
+
+.submit-form {
+  background: #0e101c;
+  color: white;
+  text-transform: uppercase;
+  border: none;
+  position: absolute;
+  bottom: 50px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  width: 80%;
+  border-radius: 25px;
+  transition: width 2s;
+}

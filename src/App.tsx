@@ -1,12 +1,13 @@
 import 'antd/dist/antd.css';
 import React from 'react';
-import './App.css';
-import CardSearch from './components/SearchCards/CardSearch';
-
+import './App.scss';
+import Logs from './components/WebAppEvents/Logs';
 const App = () => {
   return (
     <div className='App'>
-      <CardSearch />
+      <Logs />
+      {/* <NewLogin /> */}
+      {/* <CardSearch /> */}
     </div>
   );
 };
