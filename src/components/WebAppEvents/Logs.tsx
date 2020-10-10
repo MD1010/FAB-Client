@@ -20,7 +20,7 @@ const Logs: FC = () => {
   return (
     <>
       <div className='logs-container'>
-        Logs:
+        <h3>Logs:</h3>
         <ul>
           {logs.length !== 0 ? (
             logs.map((item: Ilog) => (
