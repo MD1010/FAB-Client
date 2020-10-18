@@ -6,8 +6,8 @@ import { CARDS_ENDPOINT } from 'src/consts/endpoints';
 import { UTCard } from 'src/interfaces/UTCard';
 import { Container } from 'src/styles/common/Container';
 import { Flex } from 'src/styles/common/Flex';
-import { makeRequest } from '../common/makeRequest';
-import { CardImage, CardPosition, CardResult, CardRevision, useStyles, RatingSquare } from './CardResult.style';
+import { makeRequest } from '../../common/makeRequest';
+import { CardImage, CardPosition, CardResult, CardRevision, RatingSquare, useStyles } from './CardResult.style';
 
 const CardSearch: FC = () => {
   const [options, setOptions] = useState<UTCard[]>([]);

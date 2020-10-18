@@ -1,0 +1,55 @@
+.eaacount {
+    display: flex;
+    justify-content: space-between;  
+}
+
+.account-name {
+    margin: 10px;
+}
+
+.account-edits {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 10px;
+}
+
+.click-icon:hover {
+    cursor: pointer;
+    opacity: 50%;
+}
+
+.no-cards {
+    margin: 10px;
+}
+
+.status-button {
+    border-radius: 5px;
+    color: black;
+    width: 30px;
+}
+
+.status-button:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.disconnect {
+    background-color: red;
+}
+
+.connect {
+    background-color: yellow;
+}
+
+.run {
+    background-color: green;
+}
+
+.data-account {
+    height: 45px;
+    overflow: hidden;
+}
+
+.filters-container {
+   background-color: white; 
+}
