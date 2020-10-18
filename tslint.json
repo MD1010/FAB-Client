@@ -6,7 +6,7 @@
     "linebreak-style": false,
     "object-literal-sort-keys": false,
     "semicolon": true,
-    "quotemark": [true, "single"],
+    "quotemark": [true, "double"],
     "no-console": false,
     "await-promise": [true, "Thenable"],
     "triple-equals": [true, "allow-null-check"],
