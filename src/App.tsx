@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import LoginPage from './components/Login/LoginPage';
 import ManageAccounts from './components/ManageAccounts/ManageAccounts';
 import AccountProvider from './context/AccountsContext';
 import EntitiesContextProvider from './context/EntitiesContext';

@@ -1,5 +1,7 @@
 import { SERVER_URL } from './ServerUrl';
 
+
+export const LOGIN_ENDPOINT = `${BASE_API}/auth/login`;
 const WEB_APP_API = `${SERVER_URL}/api/web-app`;
 
 export const CARDS_ENDPOINT = `${WEB_APP_API}/entities/cards`;
