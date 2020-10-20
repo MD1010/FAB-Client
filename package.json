@@ -13,16 +13,21 @@
     "@types/node": "^12.12.50",
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
+    "@types/socket.io-client": "^1.4.33",
     "@types/styled-components": "^5.1.1",
     "antd": "^4.4.3",
     "axios": "^0.19.2",
     "fontsource-roboto": "^2.2.6",
     "lodash": "^4.17.19",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-hook-form": "^6.9.2",
     "react-scripts": "3.4.1",
+    "socket.io-client": "^2.3.0",
     "styled-components": "^5.1.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "uuid": "^8.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -46,6 +51,7 @@
     ]
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.158"
+    "@types/lodash": "^4.14.158",
+    "@types/uuid": "^8.3.0"
   }
 }

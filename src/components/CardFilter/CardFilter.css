@@ -1,0 +1,21 @@
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: 200px;
+}
+
+.filter-details {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    overflow: auto;
+}
+
+.remove {
+    color: red;
+}
+
+.edit {
+    color: yellowgreen;
+}

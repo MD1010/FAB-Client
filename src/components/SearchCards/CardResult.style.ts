@@ -1,14 +1,14 @@
-import { makeStyles } from '@material-ui/core';
-import { Flex } from 'src/styles/common/Flex';
-import styled from 'styled-components';
-import { revisionColors } from 'src/consts/RevisionCards';
+import { makeStyles } from "@material-ui/core";
+import { revisionColors } from "src/consts/RevisionCards";
+import { Flex } from "src/styles/common/Flex";
+import styled from "styled-components";
 
 export const CardResult = styled(Flex)`
   justify-content: flex-start;
 `;
 export const CardImage = styled.img`
   margin-right: 5px;
-  width: ${(props) => props.width || '25px'};
+  width: ${(props) => props.width || "25px"};
 `;
 
 export const CardPosition = styled.div`
@@ -26,8 +26,8 @@ export const CardRevision = styled.div`
 
 export const useStyles = makeStyles(() => ({
   option: {
-    '&.MuiAutocomplete-option:hover .card-name': {
-      color: '#007bff',
+    "&.MuiAutocomplete-option:hover .card-name": {
+      color: "#007bff",
     },
   },
 }));
@@ -42,6 +42,9 @@ export const RatingSquare = styled.div`
   place-content: center;
   // TODO : fill the colors in the next year
   /* background: ${(props: { revision: string }) =>
-    props.revision && revisionColors[props.revision.toLowerCase()]?.background}; */
-  /* color: ${(props: { revision: string }) => props.revision && revisionColors[props.revision.toLowerCase()]?.foreground}; */
+    props.revision &&
+    revisionColors[props.revision.toLowerCase()]?.background}; */
+  /* color: ${(props: { revision: string }) =>
+    props.revision &&
+    revisionColors[props.revision.toLowerCase()]?.foreground}; */
 `;
