@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
 import { makeRequest } from "src/common/makeRequest";
-import { socket } from "src/common/sockerManger";
 import "./logs.style.scss";
-import Ilog from "./Interfaces/Ilog.interface";
+import Ilog from "./Ilog.interface";
+import { socket } from "src/common/socketManger";
 
 const listenToEvents = (cb) => {
   socket?.on("log", (log: Ilog) => {

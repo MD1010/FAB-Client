@@ -1,20 +1,44 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import LoginPage from "./components/Login/LoginPage";
+import NestedGrid from "./components/homePageGrid/GridPage";
+import LoginPage from "./components/Auth/LoginPage";
 import ManageAccounts from "./components/ManageAccounts/ManageAccounts";
 import AccountProvider from "./context/AccountsContext";
 import EntitiesContextProvider from "./context/EntitiesContext";
+import { checkIfUserLoggedIn } from "./components/Auth/auth";
 
 const App = () => {
   return (
-    <div className="App">
-      {/* <LoginPage /> */}
-      <AccountProvider>
-        <EntitiesContextProvider>
-          <ManageAccounts />
-        </EntitiesContextProvider>
-      </AccountProvider>
-    </div>
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route exact path="/home" component={NestedGrid} />
+          <Route
+            exact
+            path="/"
+            render={() =>
+              checkIfUserLoggedIn() ? <NestedGrid /> : <LoginPage />
+            }
+          />
+
+          <Route
+            exact
+            path="/accounts"
+            render={() => (
+              <AccountProvider>
+                <EntitiesContextProvider>
+                  <ManageAccounts />
+                </EntitiesContextProvider>
+              </AccountProvider>
+            )}
+          />
+
+          {/* <NewLogin /> */}
+        </Switch>
+        {/* <LoginPage /> */}
+      </div>
+    </Router>
   );
 };
 
