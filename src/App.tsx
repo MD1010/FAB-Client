@@ -1,13 +1,14 @@
-import React from 'react';
-import './App.css';
-import LoginPage from './components/Login/LoginPage';
-import ManageAccounts from './components/ManageAccounts/ManageAccounts';
-import AccountProvider from './context/AccountsContext';
-import EntitiesContextProvider from './context/EntitiesContext';
+import React from "react";
+import "./App.css";
+import LoginPage from "./components/Login/LoginPage";
+import ManageAccounts from "./components/ManageAccounts/ManageAccounts";
+import AccountProvider from "./context/AccountsContext";
+import EntitiesContextProvider from "./context/EntitiesContext";
 
 const App = () => {
   return (
-    <div className='App'>
+    <div className="App">
+      {/* <LoginPage /> */}
       <AccountProvider>
         <EntitiesContextProvider>
           <ManageAccounts />

@@ -1,13 +1,13 @@
-import { SERVER_URL } from './ServerUrl';
+import { SERVER_URL } from "./ServerUrl";
 
+const BASE_API = `${SERVER_URL}/api`;
+const WEB_APP_API = `${BASE_API}/web-app`;
 
 export const LOGIN_ENDPOINT = `${BASE_API}/auth/login`;
-const WEB_APP_API = `${SERVER_URL}/api/web-app`;
-
 export const CARDS_ENDPOINT = `${WEB_APP_API}/entities/cards`;
 export const NATIONS_ENDPOINT = `${WEB_APP_API}/entities/nations`;
 export const TEAMS_ENDPOINT = `${WEB_APP_API}/entities/teams`;
-export const LEAGUES_ENDPOINT = `${WEB_APP_API}/entities/leagues`
+export const LEAGUES_ENDPOINT = `${WEB_APP_API}/entities/leagues`;
 
 export const ACCOUNTS_ENDPOINT = `${SERVER_URL}/api/accounts/`;
 export const ADD_ACCOUNT_ENDPOINT = `${SERVER_URL}/api/accounts/add`;
