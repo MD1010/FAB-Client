@@ -2,11 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import NestedGrid from "./components/homePageGrid/GridPage";
-import LoginPage from "./components/Auth/LoginPage";
+import LoginPage from "./components/Login/LoginPage";
 import ManageAccounts from "./components/ManageAccounts/ManageAccounts";
 import AccountProvider from "./context/AccountsContext";
 import EntitiesContextProvider from "./context/EntitiesContext";
-import { checkIfUserLoggedIn } from "./components/Auth/auth";
+import { checkIfUserLoggedIn } from "./components/Login/auth";
 
 const App = () => {
   return (

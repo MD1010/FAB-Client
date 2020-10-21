@@ -24,3 +24,11 @@ input[type='submit']:active {
 button:disabled {
   background-color: #cccccc;
 }
+.error-message {
+  color: #bf1650;
+  font-weight: 500;
+}
+
+.error-message::before {
+  content: '⚠ ';
+}

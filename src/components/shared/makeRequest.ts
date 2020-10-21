@@ -46,6 +46,8 @@ export const makeRequest = async ({
       const { data } = await trackPromise(axios.delete(url));
       return [data, null];
     } catch (error) {
+      if (!error.response?.data) throw error;
+
       return [null, error.response?.data || error.message];
     }
   }

@@ -5,6 +5,7 @@ import { LOGIN_ENDPOINT } from "../../consts/endpoints";
 import { RequestMethod } from "src/types/RequestMethod";
 import { setLocalStorageFields } from "./loginUtils";
 import { makeRequest } from "src/common/makeRequest";
+import "./LoginForm.style.scss";
 
 export default function LoginPage() {
   const { register, handleSubmit, errors } = useForm();
@@ -18,14 +19,18 @@ export default function LoginPage() {
     });
     if (data) {
       setLocalStorageFields(data.access_token, data.refresh_token, username);
-      alert(localStorage.getItem("jwtAccess"));
+      alert(localStorage.getItem("access_token"));
     } else {
       setLoginError(error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="login-form"
+      onSubmit={handleSubmit(onSubmit)}
+      autoComplete="off"
+    >
       <TextField
         id="standart-basic"
         label="UserName"
@@ -33,9 +38,11 @@ export default function LoginPage() {
         name="username"
         inputRef={register({ required: true })}
       />
-      {errors.UserName && errors.UserName.type === "required" && (
-        <p>UserName is required</p>
+
+      {errors.username && errors.username.type === "required" && (
+        <p className="error-message">UserName is required</p>
       )}
+
       <TextField
         id="standart-basic"
         label="password"
@@ -45,13 +52,13 @@ export default function LoginPage() {
           required: true,
         })}
       />
-      {errors.Password && errors.Password.type === "required" && (
-        <p>Password is required</p>
+      {errors.password && errors.password.type === "required" && (
+        <p className="error-message">Password is required</p>
       )}
       <Button type="submit" variant="contained">
         Login
       </Button>
-      {loginError && <p>Login failed, check your cradentials and try again!</p>}
+      {loginError && <p className="error-message">{loginError}</p>}
     </form>
   );
 }

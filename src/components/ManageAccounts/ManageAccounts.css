@@ -27,16 +27,8 @@
     margin: 0 auto;
   }
   
-  .error-message {
-    color: #bf1650;
-    font-weight: 500;
-  }
   
-  .error-message::before {
-    content: '⚠ ';
-  }
-  
-  input {
+  /* input {
     display: block;
     box-sizing: border-box;
     width: 100%;
@@ -58,7 +50,7 @@
     font-weight: 200;
     color: #0e101c;
     font-weight: bold;
-  }
+  } */
   
   .modal {
     display: flex;
