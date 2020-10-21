@@ -10,13 +10,16 @@ import "./LoginForm.style.scss";
 export default function LoginPage() {
   const { register, handleSubmit, errors } = useForm();
   const [loginError, setLoginError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const onSubmit = async (loginFields) => {
+    setIsSubmitting(true);
     const { username, password } = loginFields;
     const [data, error] = await makeRequest({
       url: LOGIN_ENDPOINT,
       method: RequestMethod.POST,
       body: { username: username, password: password },
     });
+    setIsSubmitting(false);
     if (data) {
       setLocalStorageFields(data.access_token, data.refresh_token, username);
       alert(localStorage.getItem("access_token"));
@@ -55,7 +58,7 @@ export default function LoginPage() {
       {errors.password && errors.password.type === "required" && (
         <p className="error-message">Password is required</p>
       )}
-      <Button type="submit" variant="contained">
+      <Button type="submit" variant="contained" disabled={isSubmitting}>
         Login
       </Button>
       {loginError && <p className="error-message">{loginError}</p>}
