@@ -6,6 +6,7 @@ import NavBar from "../NavBar/NavBar";
 import Logs from "../WebAppEvents/Logs";
 import "./running-fabs.style.scss";
 import "./grid-page.style.scss";
+import { RouteComponentProps } from "react-router-dom";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -19,8 +20,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function NestedGrid() {
+export default function NestedGrid({
+  history,
+  location,
+  match,
+  staticContext,
+}: RouteComponentProps) {
   const classes = useStyles();
+  console.log(history);
+  console.log(location);
+  console.log(match);
+  console.log(staticContext);
 
   function TotalCoinsAndRunTime() {
     return (

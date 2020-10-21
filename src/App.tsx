@@ -14,11 +14,12 @@ const App = () => {
       <div className="App">
         <Switch>
           <Route exact path="/home" component={NestedGrid} />
+          <Route exact path="/login" component={LoginPage} />
           <Route
             exact
             path="/"
-            render={() =>
-              checkIfUserLoggedIn() ? <NestedGrid /> : <LoginPage />
+            render={(props) =>
+              checkIfUserLoggedIn() ? <NestedGrid {...props} /> : <LoginPage />
             }
           />
 
