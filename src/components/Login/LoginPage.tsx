@@ -1,14 +1,20 @@
+import { Button, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button, TextField } from "@material-ui/core";
-import { LOGIN_ENDPOINT } from "../../consts/endpoints";
+import { useHistory } from "react-router-dom";
+import { makeRequest } from "src/services/request";
 import { RequestMethod } from "src/types/RequestMethod";
-import { setLocalStorageFields } from "./loginUtils";
-import { makeRequest } from "src/common/makeRequest";
+import { LOGIN_ENDPOINT } from "../../consts/endpoints";
 import "./LoginForm.style.scss";
+import {
+  setLocalStorageItem,
+  removeLocalStorageItem,
+  getLocalStorageItemValue,
+} from "../../services/localStorage";
 
 export default function LoginPage() {
   const { register, handleSubmit, errors } = useForm();
+  const history = useHistory();
   const [loginError, setLoginError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const onSubmit = async (loginFields) => {
@@ -17,14 +23,19 @@ export default function LoginPage() {
     const [data, error] = await makeRequest({
       url: LOGIN_ENDPOINT,
       method: RequestMethod.POST,
-      body: { username: username, password: password },
+      body: { username, password: password },
     });
     setIsSubmitting(false);
     if (data) {
-      setLocalStorageFields(data.access_token, data.refresh_token, username);
-      alert(localStorage.getItem("access_token"));
+      if (getLocalStorageItemValue("user")) {
+        removeLocalStorageItem("access_token");
+        removeLocalStorageItem("user");
+      }
+      setLocalStorageItem("access_token", data.access_token);
+      setLocalStorageItem("user", username);
+      history.push("/accounts");
     } else {
-      setLoginError(error);
+      setLoginError(error.msg);
     }
   };
 

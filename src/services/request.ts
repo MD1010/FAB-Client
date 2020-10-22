@@ -2,7 +2,9 @@ import axios from "axios";
 import { trackPromise } from "react-promise-tracker";
 import { RequestMethod } from "src/types/RequestMethod";
 
-axios.interceptors.request.use(
+const httpClient = axios.create();
+httpClient.defaults.timeout = 5000;
+httpClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("access_token");
     if (token) config.headers["Authorization"] = "Bearer " + token;
@@ -26,7 +28,9 @@ export const makeRequest = async ({
 }) => {
   if (method === RequestMethod.GET) {
     try {
-      const { data } = await trackPromise(axios.get(url, { params, headers }));
+      const { data } = await trackPromise(
+        httpClient.get(url, { params, headers })
+      );
 
       return [data, null];
     } catch (error) {
@@ -35,7 +39,7 @@ export const makeRequest = async ({
   } else if (method === RequestMethod.POST) {
     try {
       const { data } = await trackPromise(
-        axios.post(url, body, { headers, method })
+        httpClient.post(url, body, { headers, method })
       );
       return [data, null];
     } catch (error) {
@@ -43,7 +47,7 @@ export const makeRequest = async ({
     }
   } else {
     try {
-      const { data } = await trackPromise(axios.delete(url));
+      const { data } = await trackPromise(httpClient.delete(url));
       return [data, null];
     } catch (error) {
       return [null, error.response?.data || error.message];

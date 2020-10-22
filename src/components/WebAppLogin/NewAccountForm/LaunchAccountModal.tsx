@@ -1,7 +1,7 @@
 import Alert from "@material-ui/lab/Alert/Alert";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { socket } from "src/common/socketManger";
+import { socket } from "src/services/socketManger";
 import Spinner from "src/components/shared/Spinner";
 
 type FormFields = {

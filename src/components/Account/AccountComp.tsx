@@ -19,7 +19,7 @@ import {
   RUN_ACCOUNT,
 } from "src/consts/endpoints";
 import { RequestMethod } from "src/types/RequestMethod";
-import { makeRequest } from "src/common/makeRequest";
+import { makeRequest } from "src/services/request";
 import LaunchAccountModal from "../WebAppLogin/NewAccountForm/LaunchAccountModal";
 import { AccountsContext, ACCOUNTS_ACTIONS } from "src/context/AccountsContext";
 

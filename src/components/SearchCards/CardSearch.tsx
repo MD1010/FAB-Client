@@ -6,7 +6,7 @@ import { CARDS_ENDPOINT } from "src/consts/endpoints";
 import { UTCard } from "src/interfaces/UTCard";
 import { Container } from "src/styles/common/Container";
 import { Flex } from "src/styles/common/Flex";
-import { makeRequest } from "../../common/makeRequest";
+import { makeRequest } from "../../services/request";
 import {
   CardImage,
   CardPosition,

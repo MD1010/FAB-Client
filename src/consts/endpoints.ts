@@ -9,9 +9,9 @@ export const NATIONS_ENDPOINT = `${WEB_APP_API}/entities/nations`;
 export const TEAMS_ENDPOINT = `${WEB_APP_API}/entities/teams`;
 export const LEAGUES_ENDPOINT = `${WEB_APP_API}/entities/leagues`;
 
-export const ACCOUNTS_ENDPOINT = `${SERVER_URL}/api/accounts/`;
-export const ADD_ACCOUNT_ENDPOINT = `${SERVER_URL}/api/accounts/add`;
-export const DELETE_ACCOUNT_ENDPOINT = `${SERVER_URL}/api/accounts/delete`;
+export const ACCOUNTS_ENDPOINT = `${SERVER_URL}/api/accounts`;
+export const ADD_ACCOUNT_ENDPOINT = `${ACCOUNTS_ENDPOINT}/add-account`;
+export const DELETE_ACCOUNT_ENDPOINT = `${ACCOUNTS_ENDPOINT}/delete-account`;
 
 export const LAUNCH_ACCOUNT = `${WEB_APP_API}/login/connect`;
 export const FIRST_LOGIN_ACCOUNT = `${WEB_APP_API}/login/first-login`;

@@ -71,7 +71,7 @@ export default function NavBar() {
               color="inherit"
               noWrap
             >
-              {"Welcome Back " + localStorage.getItem("userName")}
+              {"Welcome Back " + localStorage.getItem("user")}
             </Typography>
 
             <AccountCircle fontSize="large" />

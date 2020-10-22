@@ -1,7 +1,7 @@
 import { Backdrop, Modal } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import React, { FC, useContext, useEffect, useState } from "react";
-import { makeRequest } from "src/common/makeRequest";
+import { makeRequest } from "src/services/request";
 import {
   ACCOUNTS_ENDPOINT,
   ADD_ACCOUNT_ENDPOINT,
@@ -22,6 +22,8 @@ const ManageAccounts: FC = () => {
   useEffect(() => {
     const initiData = async () => {
       const accounts = await fetchAccounts();
+      console.log(accounts);
+
       accountsContext.dispatch({
         type: ACCOUNTS_ACTIONS.FETCH_ACCOUNTS,
         payload: accounts,
@@ -56,7 +58,7 @@ const ManageAccounts: FC = () => {
   const deleteEaAccount = async (email: string) => {
     const [res, error] = await makeRequest({
       method: RequestMethod.DELETE,
-      url: `${DELETE_ACCOUNT_ENDPOINT}/${email}`,
+      url: `${DELETE_ACCOUNT_ENDPOINT}`,
     });
     accountsContext.dispatch({
       type: ACCOUNTS_ACTIONS.DELETE_ACCOUNT,
@@ -66,19 +68,26 @@ const ManageAccounts: FC = () => {
 
   const fetchAccounts = async () => {
     const [data, error] = await makeRequest({ url: ACCOUNTS_ENDPOINT });
-    if (error) throw error;
-    const accountsFetched = data.accounts;
-    const eaAccounts: EaAccount[] = accountsFetched.map((acc) => {
-      return {
-        owner: acc.owner,
-        email: acc.email,
-        coinsEarned: acc.coins_earned,
-        filters: acc.search_filters,
-        selectedFilter: acc.selected_search_filter,
-        status: acc.status,
-      };
-    });
-    return eaAccounts;
+    if (error) {
+      console.log("erorr in fetching accounts");
+
+      console.log(error);
+    }
+    if (data) {
+      const accountsFetched = data.accounts;
+      const eaAccounts: EaAccount[] = accountsFetched.map((acc) => {
+        return {
+          owner: acc.owner,
+          email: acc.email,
+          coinsEarned: acc.coins_earned,
+          filters: acc.search_filters,
+          selectedFilter: acc.selected_search_filter,
+          status: acc.status,
+        };
+      });
+      return eaAccounts;
+    }
+    return [];
   };
 
   return (

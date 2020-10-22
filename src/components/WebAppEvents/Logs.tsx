@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
-import { makeRequest } from "src/common/makeRequest";
+import { makeRequest } from "src/services/request";
 import "./logs.style.scss";
 import Ilog from "./Ilog.interface";
-import { socket } from "src/common/socketManger";
+import { socket } from "src/services/socketManger";
 
 const listenToEvents = (cb) => {
   socket?.on("log", (log: Ilog) => {
@@ -14,7 +14,7 @@ const Logs: FC = () => {
   const [logs, setLogs] = useState<Ilog[]>([]);
   useEffect(() => {
     listenToEvents((log) => setLogs((logs) => [...logs, log]));
-    makeRequest({ url: "http://192.168.1.134:5000/api/users/emit-test-logs" });
+    // makeRequest({ url: "http://192.168.1.134:5000/api/users/emit-test-logs" });
   }, []);
 
   return (
