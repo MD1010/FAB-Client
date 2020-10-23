@@ -4,9 +4,10 @@ import "./App.css";
 import NestedGrid from "./components/homePageGrid/GridPage";
 import LoginPage from "./components/Login/LoginPage";
 import ManageAccounts from "./components/ManageAccounts/ManageAccounts";
+import GuardedRoute from "./components/shared/GuardedRoute";
 import AccountProvider from "./context/AccountsContext";
 import EntitiesContextProvider from "./context/EntitiesContext";
-import { checkIfUserLoggedIn } from "./components/Login/auth";
+import { isUserLoggedIn } from "./services/auth";
 
 const App = () => {
   return (
@@ -19,11 +20,10 @@ const App = () => {
             exact
             path="/"
             render={(props) =>
-              checkIfUserLoggedIn() ? <NestedGrid {...props} /> : <LoginPage />
+              isUserLoggedIn() ? <NestedGrid {...props} /> : <LoginPage />
             }
           />
-
-          <Route
+          <GuardedRoute
             exact
             path="/accounts"
             render={() => (

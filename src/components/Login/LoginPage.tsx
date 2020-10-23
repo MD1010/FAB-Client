@@ -6,11 +6,6 @@ import { makeRequest } from "src/services/request";
 import { RequestMethod } from "src/types/RequestMethod";
 import { LOGIN_ENDPOINT } from "../../consts/endpoints";
 import "./LoginForm.style.scss";
-import {
-  setLocalStorageItem,
-  removeLocalStorageItem,
-  getLocalStorageItemValue,
-} from "../../services/localStorage";
 
 export default function LoginPage() {
   const { register, handleSubmit, errors } = useForm();
@@ -27,12 +22,11 @@ export default function LoginPage() {
     });
     setIsSubmitting(false);
     if (data) {
-      if (getLocalStorageItemValue("user")) {
-        removeLocalStorageItem("access_token");
-        removeLocalStorageItem("user");
+      if (localStorage.getItem("user")) {
+        localStorage.clear();
       }
-      setLocalStorageItem("access_token", data.access_token);
-      setLocalStorageItem("user", username);
+      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("user", username);
       history.push("/accounts");
     } else {
       setLoginError(error.msg);

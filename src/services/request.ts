@@ -1,15 +1,18 @@
 import axios from "axios";
 import { trackPromise } from "react-promise-tracker";
 import { RequestMethod } from "src/types/RequestMethod";
+import { getNewAccessTokenIfExpired } from "./jwt";
 
 const httpClient = axios.create();
 httpClient.defaults.timeout = 5000;
 httpClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("access_token");
+  async (config) => {
+    let token = localStorage.getItem("access_token");
+    token = await getNewAccessTokenIfExpired(token);
     if (token) config.headers["Authorization"] = "Bearer " + token;
     return config;
   },
+
   (error) => Promise.reject(error)
 );
 

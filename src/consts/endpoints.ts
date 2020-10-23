@@ -18,3 +18,5 @@ export const FIRST_LOGIN_ACCOUNT = `${WEB_APP_API}/login/first-login`;
 export const DISCONNECT_ACCOUNT = `${WEB_APP_API}/login/disconnect`;
 export const LAUNCH_WITH_CODE = `${WEB_APP_API}/login/connect-with-code`;
 export const RUN_ACCOUNT = `${WEB_APP_API}/actions/start-loop`;
+
+export const REFRESH_TOKEN = `${SERVER_URL}/api/auth/refresh`;
