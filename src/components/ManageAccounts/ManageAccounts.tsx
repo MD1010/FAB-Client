@@ -13,6 +13,7 @@ import { RequestMethod } from "src/types/RequestMethod";
 import AccountComp from "../Account/AccountComp";
 import AddAccountModal from "../AddAccountModal/AddAccountModal";
 import "./ManageAccounts.css";
+import { AxiosError } from "axios";
 
 const ManageAccounts: FC = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -69,7 +70,7 @@ const ManageAccounts: FC = () => {
   const fetchAccounts = async () => {
     const [data, error] = await makeRequest({ url: ACCOUNTS_ENDPOINT });
     if (error) {
-      console.log("erorr in fetching accounts");
+      console.log((error as AxiosError).request);
 
       console.log(error);
     }

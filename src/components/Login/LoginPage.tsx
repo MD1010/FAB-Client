@@ -30,7 +30,7 @@ export default function LoginPage() {
       localStorage.setItem("user", username);
       history.push("/accounts");
     } else {
-      setLoginError(error.msg);
+      setLoginError(error.msg || error);
     }
   };
 

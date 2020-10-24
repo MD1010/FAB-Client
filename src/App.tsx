@@ -18,8 +18,8 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <GuardedRoute exact path="/home" component={HomePage} />
-        <GuardedRoute exact path="/" component={HomePage} />
+        <GuardedRoute exact path="/home" comp={HomePage} />
+        <GuardedRoute exact path="/" comp={HomePage} />
         <Route
           exact
           path="/login"

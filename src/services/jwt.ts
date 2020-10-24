@@ -3,16 +3,13 @@ import { REFRESH_TOKEN } from "src/consts/endpoints";
 import { RequestMethod } from "src/types/RequestMethod";
 import { makeRequest } from "./request";
 
-export const isAccessTokenIsExpired = (token: string | null): boolean => {
+export const isAccessTokenExpired = (token: string | null): boolean => {
   return jwt_decode(token).exp < Date.now() / 1000;
 };
 
-export const getNewAccessTokenIfExpired = async (
-  token: string | null
-): Promise<string | null> => {
-  console.log("getNewAccessTokenIfExpired");
-
-  if (token && isAccessTokenIsExpired(token)) {
+export const setNewAccessTokenIfExpired = async (): Promise<string | null> => {
+  let token = localStorage.getItem("access_token");
+  if (token && isAccessTokenExpired(token)) {
     const [data, error] = await makeRequest({
       url: `${REFRESH_TOKEN}`,
       method: RequestMethod.POST,
@@ -20,7 +17,8 @@ export const getNewAccessTokenIfExpired = async (
     });
     if (data) {
       return data.access_token;
-    }
+    } else localStorage.clear();
   }
-  return token;
+
+  return null;
 };
