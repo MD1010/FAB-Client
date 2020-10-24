@@ -2,7 +2,6 @@ import { Button, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { isUserLoggedIn } from "src/services/auth";
 import { makeRequest } from "src/services/request";
 import { RequestMethod } from "src/types/RequestMethod";
 import { LOGIN_ENDPOINT } from "../../consts/endpoints";
@@ -27,8 +26,8 @@ export default function LoginPage() {
         localStorage.clear();
       }
       localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("user", username);
-      history.push("/accounts");
+      // localStorage.setItem("user", username);
+      history.push("/");
     } else {
       setLoginError(error.msg || error);
     }

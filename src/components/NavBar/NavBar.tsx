@@ -5,6 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import React from "react";
+import { getLoggedInUser } from "src/services/auth";
 import SideBar from "../SideBar/SideBar";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -71,7 +72,7 @@ export default function NavBar() {
               color="inherit"
               noWrap
             >
-              {"Welcome Back " + localStorage.getItem("user")}
+              {"Welcome Back " + getLoggedInUser()}
             </Typography>
 
             <AccountCircle fontSize="large" />

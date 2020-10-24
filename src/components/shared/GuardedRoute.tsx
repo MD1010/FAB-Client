@@ -3,11 +3,8 @@ import { Redirect, Route, RouteProps } from "react-router-dom";
 import { isUserLoggedIn } from "src/services/auth";
 import { setNewAccessTokenIfExpired } from "src/services/jwt";
 const GuardedRoute = (props: RouteProps) => {
-  setNewAccessTokenIfExpired().then((token) => {
-    token && localStorage.setItem("access_token", token);
-  });
-
   const isAuth = isUserLoggedIn();
+
   const { comp: Component } = props;
   if (isAuth) {
     if (Component) {

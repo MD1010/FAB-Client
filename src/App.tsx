@@ -39,6 +39,7 @@ const App = () => {
             </AccountProvider>
           )}
         />
+        <GuardedRoute exact path="*" render={() => <Redirect to="/" />} />
       </Switch>
     </Router>
   );
