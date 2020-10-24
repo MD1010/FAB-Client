@@ -10,6 +10,7 @@ import {
   Theme,
   useTheme,
 } from "@material-ui/core/styles";
+import { v4 as uuidv4 } from "uuid";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -59,41 +60,40 @@ export default function SideBar() {
         </IconButton>
       </div>
       <Divider />
-      {/**/}
-      {/*  */}
       <div onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
-        {listItems.map((listItem: IlistItem) => (
-          <>
-            {listItem.itemName === "Settings" && <Divider />}
+        {listItems.map((listItem: IlistItem, index) => (
+          <div key={uuidv4()}>
+            {listItem.itemName === "Settings" && (
+              <Divider key={listItem.itemName} />
+            )}
             <ListItem
               onClick={() =>
                 console.log("switch to " + listItem.itemName + " page")
               }
               button
-              key={listItem.itemName}
             >
               <ListItemIcon>
                 <listItem.itemIcon />
               </ListItemIcon>
               <ListItemText primary={listItem.itemName} />
             </ListItem>
-          </>
+          </div>
         ))}
       </div>
     </>
   );
 
   return (
-    <div>
-      <React.Fragment>
-        <Button onClick={toggleDrawer(true)}>
-          <MenuIcon color="secondary" fontSize={"large"} />
-        </Button>
+    <>
+      <MenuIcon
+        color="secondary"
+        fontSize={"large"}
+        onClick={toggleDrawer(true)}
+      />
 
-        <Drawer anchor="left" open={isNavOpen} onClose={toggleDrawer(false)}>
-          {listMenu()}
-        </Drawer>
-      </React.Fragment>
-    </div>
+      <Drawer anchor="left" open={isNavOpen} onClose={toggleDrawer(false)}>
+        {listMenu()}
+      </Drawer>
+    </>
   );
 }

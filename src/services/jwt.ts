@@ -10,7 +10,9 @@ export const isAccessTokenIsExpired = (token: string | null): boolean => {
 export const getNewAccessTokenIfExpired = async (
   token: string | null
 ): Promise<string | null> => {
-  if (!isAccessTokenIsExpired(token)) {
+  console.log("getNewAccessTokenIfExpired");
+
+  if (token && isAccessTokenIsExpired(token)) {
     const [data, error] = await makeRequest({
       url: `${REFRESH_TOKEN}`,
       method: RequestMethod.POST,

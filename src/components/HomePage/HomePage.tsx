@@ -1,12 +1,12 @@
-import React from "react";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import React from "react";
+import { RouteComponentProps } from "react-router-dom";
 import NavBar from "../NavBar/NavBar";
 import Logs from "../WebAppEvents/Logs";
-import "./running-fabs.style.scss";
-import "./grid-page.style.scss";
-import { RouteComponentProps } from "react-router-dom";
+import "./HomePage.style.scss";
+import "./RunningFabs.style.scss";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -20,17 +20,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function NestedGrid({
+export default function HomePage({
   history,
   location,
   match,
   staticContext,
 }: RouteComponentProps) {
   const classes = useStyles();
-  console.log(history);
-  console.log(location);
-  console.log(match);
-  console.log(staticContext);
 
   function TotalCoinsAndRunTime() {
     return (

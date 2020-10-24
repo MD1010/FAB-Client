@@ -1,7 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import "./App.css";
-import NestedGrid from "./components/homePageGrid/GridPage";
+import HomePage from "./components/HomePage/HomePage";
 import LoginPage from "./components/Login/LoginPage";
 import ManageAccounts from "./components/ManageAccounts/ManageAccounts";
 import GuardedRoute from "./components/shared/GuardedRoute";
@@ -12,33 +17,29 @@ import { isUserLoggedIn } from "./services/auth";
 const App = () => {
   return (
     <Router>
-      <div className="App">
-        <Switch>
-          <Route exact path="/home" component={NestedGrid} />
-          <Route exact path="/login" component={LoginPage} />
-          <Route
-            exact
-            path="/"
-            render={(props) =>
-              isUserLoggedIn() ? <NestedGrid {...props} /> : <LoginPage />
-            }
-          />
-          <GuardedRoute
-            exact
-            path="/accounts"
-            render={() => (
-              <AccountProvider>
-                <EntitiesContextProvider>
-                  <ManageAccounts />
-                </EntitiesContextProvider>
-              </AccountProvider>
-            )}
-          />
+      <Switch>
+        <GuardedRoute exact path="/home" component={HomePage} />
+        <GuardedRoute exact path="/" component={HomePage} />
+        <Route
+          exact
+          path="/login"
+          render={(props) =>
+            isUserLoggedIn() ? <Redirect to="/" /> : <LoginPage />
+          }
+        />
 
-          {/* <NewLogin /> */}
-        </Switch>
-        {/* <LoginPage /> */}
-      </div>
+        <GuardedRoute
+          exact
+          path="/accounts"
+          render={() => (
+            <AccountProvider>
+              <EntitiesContextProvider>
+                <ManageAccounts />
+              </EntitiesContextProvider>
+            </AccountProvider>
+          )}
+        />
+      </Switch>
     </Router>
   );
 };

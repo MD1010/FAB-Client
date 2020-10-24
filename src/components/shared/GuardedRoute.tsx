@@ -15,7 +15,7 @@ const GuardedRoute = (props: RouteProps) => {
   } else {
     return (
       <Route>
-        <Redirect to="/" />
+        <Redirect to="/login" />
       </Route>
     );
   }

@@ -8,8 +8,12 @@ httpClient.defaults.timeout = 5000;
 httpClient.interceptors.request.use(
   async (config) => {
     let token = localStorage.getItem("access_token");
-    token = await getNewAccessTokenIfExpired(token);
+    console.log("token", token);
+
+    // token = await getNewAccessTokenIfExpired(token);
     if (token) config.headers["Authorization"] = "Bearer " + token;
+    console.log("returning config");
+
     return config;
   },
 
