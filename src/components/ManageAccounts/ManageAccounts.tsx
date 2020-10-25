@@ -68,14 +68,15 @@ const ManageAccounts: FC = () => {
   };
 
   const fetchAccounts = async () => {
-    const [data, error] = await makeRequest({ url: ACCOUNTS_ENDPOINT });
+    const [accountsFetched, error] = await makeRequest({
+      url: ACCOUNTS_ENDPOINT,
+    });
     if (error) {
       console.log((error as AxiosError).request);
 
       console.log(error);
     }
-    if (data) {
-      const accountsFetched = data.accounts;
+    if (accountsFetched) {
       const eaAccounts: EaAccount[] = accountsFetched.map((acc) => {
         return {
           owner: acc.owner,

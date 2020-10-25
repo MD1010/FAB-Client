@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
 import { isUserLoggedIn } from "src/services/auth";
 import { setNewAccessTokenIfExpired } from "src/services/jwt";
 const GuardedRoute = (props: RouteProps) => {
+  // useEffect(() => {
+  //   setNewAccessTokenIfExpired().then(token => )
+
+  // }, []);
   const isAuth = isUserLoggedIn();
 
   const { comp: Component } = props;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -13,8 +13,13 @@ import GuardedRoute from "./components/shared/GuardedRoute";
 import AccountProvider from "./context/AccountsContext";
 import EntitiesContextProvider from "./context/EntitiesContext";
 import { isUserLoggedIn } from "./services/auth";
+import { setNewAccessTokenIfExpired } from "./services/jwt";
 
 const App = () => {
+  useEffect(() => {
+    (async () => await setNewAccessTokenIfExpired())();
+  }, []);
+
   return (
     <Router>
       <Switch>

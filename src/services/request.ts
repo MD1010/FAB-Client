@@ -18,7 +18,7 @@ httpClient.interceptors.response.use(
   async (error: AxiosError) => {
     if (error.response?.data.message === "Token has expired") {
       console.log("Token expired");
-      setNewAccessTokenIfExpired();
+      await setNewAccessTokenIfExpired();
     }
     return Promise.reject(error);
   }
