@@ -10,18 +10,19 @@ if (token) httpClient.defaults.headers["Authorization"] = "Bearer " + token;
 httpClient.defaults.timeout = 5000;
 httpClient.defaults.withCredentials = true;
 
-httpClient.interceptors.response.use(
+const interceptor = httpClient.interceptors.response.use(
   (response) => {
-    console.log(response);
     return response;
   },
   async (error: AxiosError) => {
     console.log(error.response?.status);
-
+    let requestConfig = error.config;
     if (error.response?.status === 401) {
       console.log("Token expired");
+      axios.interceptors.response.eject(interceptor);
       await setNewAccessTokenIfExpired();
-      return axios(error.config);
+      requestConfig.headers = httpClient.defaults.headers;
+      return axios(requestConfig);
     }
     return Promise.reject(error);
   }
