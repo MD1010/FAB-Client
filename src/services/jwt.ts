@@ -5,12 +5,15 @@ import { RequestMethod } from "src/types/RequestMethod";
 import { getLoggedInUser } from "./auth";
 import { httpClient, makeRequest } from "./request";
 
-export const isAccessTokenExpired = (token: string | null): boolean => {
+export const isAccessTokenExpired = (): boolean => {
   // console.log(jwtDecode(token).exp <= Date.now() / 1000);
   // console.log(token);
   // console.log(jwtDecode(token));
-
-  if (!token) return false;
+  let token = localStorage.getItem("access_token");
+  if (!token) {
+    console.log("WHAT");
+    return false;
+  }
   return jwtDecode(token).exp <= Date.now() / 1000;
 };
 export const getTokenIdentity = (token: string | null): boolean => {
@@ -27,9 +30,9 @@ const refreshToken = async () => {
   return data ? data.access_token : null;
 };
 export const setNewAccessTokenIfExpired = async () => {
-  let token = localStorage.getItem("access_token");
+  console.log("tokkkken expired??", isAccessTokenExpired());
 
-  if (isAccessTokenExpired(token)) {
+  if (isAccessTokenExpired()) {
     console.log("refreshing token...");
 
     const token = await refreshToken();
@@ -46,5 +49,4 @@ export const setNewAccessTokenIfExpired = async () => {
       return null;
     }
   }
-  return token;
 };
