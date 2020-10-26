@@ -2,10 +2,10 @@ import axios, { AxiosError } from "axios";
 import { toLength } from "lodash";
 import { trackPromise } from "react-promise-tracker";
 import { RequestMethod } from "src/types/RequestMethod";
-import { setNewAccessTokenIfExpired } from "./jwt";
+import { getToken, setNewAccessTokenIfExpired } from "./jwt";
 
 export const httpClient = axios.create();
-const token = localStorage.getItem("access_token");
+const token = getToken();
 if (token) httpClient.defaults.headers["Authorization"] = "Bearer " + token;
 httpClient.defaults.timeout = 5000;
 httpClient.defaults.withCredentials = true;
@@ -17,7 +17,7 @@ const interceptor = httpClient.interceptors.response.use(
   async (error: AxiosError) => {
     console.log(error.response?.status);
     let requestConfig = error.config;
-    if (error.response?.status === 401) {
+    if (error.response?.data.msg === "Token has expired") {
       console.log("Token expired");
       axios.interceptors.response.eject(interceptor);
       await setNewAccessTokenIfExpired();

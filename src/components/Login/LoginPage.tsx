@@ -2,6 +2,7 @@ import { Button, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { setToken } from "src/services/jwt";
 import { makeRequest } from "src/services/request";
 import { RequestMethod } from "src/types/RequestMethod";
 import { LOGIN_ENDPOINT } from "../../consts/endpoints";
@@ -22,10 +23,10 @@ export default function LoginPage() {
     });
     setIsSubmitting(false);
     if (data) {
-      if (localStorage.getItem("user")) {
-        localStorage.clear();
-      }
-      localStorage.setItem("access_token", data.access_token);
+      // if (localStorage.getItem("user")) {
+      //   localStorage.clear();
+      // }
+      setToken(data.access_token);
       // localStorage.setItem("user", username);
       history.push("/");
     } else {

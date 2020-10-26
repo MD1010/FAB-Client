@@ -1,10 +1,19 @@
-import { getTokenIdentity, setNewAccessTokenIfExpired } from "./jwt";
+import {
+  getTokenIdentity,
+  setNewAccessTokenIfExpired,
+  isAccessTokenExpired,
+  getToken,
+} from "./jwt";
 
-export const isUserLoggedIn = () => {
+export function isUserLoggedIn() {
   // if access token is not expired or refreshed it will be returned
-  return !!localStorage.getItem("access_token");
-};
-export const getLoggedInUser = () => {
-  const token = localStorage.getItem("access_token");
-  return getTokenIdentity(token);
-};
+  console.log("isUserLoggedIn");
+
+  return !!getToken();
+}
+export function getLoggedInUser() {
+  const token = getToken();
+  console.log("get identity", token);
+
+  return token && getTokenIdentity(token);
+}

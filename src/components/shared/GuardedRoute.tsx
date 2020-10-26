@@ -7,7 +7,10 @@ const GuardedRoute = (props: RouteProps) => {
   //   setNewAccessTokenIfExpired().then(token => )
 
   // }, []);
+  console.log("in GuardedRoute");
+
   const isAuth = isUserLoggedIn();
+  console.log(isAuth);
 
   const { comp: Component } = props;
   if (isAuth) {

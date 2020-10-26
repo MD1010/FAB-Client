@@ -13,6 +13,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MenuIcon from "@material-ui/icons/Menu";
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { IlistItem } from "./Ilist.interfaces";
 import { listItems } from "./listItems";
@@ -33,6 +34,7 @@ export default function SideBar() {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
   const theme = useTheme();
   const classes = useStyles();
+  const history = useHistory();
   const toggleDrawer = (open: boolean) => (
     event: React.KeyboardEvent | React.MouseEvent
   ) => {
@@ -66,9 +68,14 @@ export default function SideBar() {
               <Divider key={listItem.itemName} />
             )}
             <ListItem
-              onClick={() =>
-                console.log("switch to " + listItem.itemName + " page")
-              }
+              onClick={() => {
+                switch (listItem.itemName) {
+                  case "Log Out": {
+                    localStorage.clear();
+                    history.push("/");
+                  }
+                }
+              }}
               button
             >
               <ListItemIcon>

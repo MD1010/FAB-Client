@@ -5,16 +5,23 @@ import { RequestMethod } from "src/types/RequestMethod";
 import { getLoggedInUser } from "./auth";
 import { httpClient, makeRequest } from "./request";
 
-export const isAccessTokenExpired = (): boolean => {
-  let token = localStorage.getItem("access_token");
-  if (!token) return false;
+export function setToken(token: string) {
+  return localStorage.setItem("access_token", token);
+}
+export function getToken() {
+  return localStorage.getItem("access_token");
+}
+export function isAccessTokenExpired(token: string | null): boolean {
+  if (!token) return true;
   return jwtDecode(token).exp <= Date.now() / 1000;
-};
-export const getTokenIdentity = (token: string | null): boolean => {
+}
+export function getTokenIdentity(token: string | null): boolean {
   return token ? jwtDecode(token).identity : null;
-};
+}
 
 const refreshToken = async () => {
+  console.log("refresh->", getLoggedInUser());
+
   const [data] = await makeRequest({
     url: `${REFRESH_TOKEN}`,
     method: RequestMethod.POST,
@@ -23,19 +30,21 @@ const refreshToken = async () => {
 
   return data ? data.access_token : null;
 };
-export const setNewAccessTokenIfExpired = async () => {
-  if (isAccessTokenExpired()) {
+export async function setNewAccessTokenIfExpired() {
+  const token = getToken();
+  if (!token) return null;
+  if (isAccessTokenExpired(token)) {
     console.log("refreshing token...");
 
     const token = await refreshToken();
 
     if (token) {
       httpClient.defaults.headers["Authorization"] = "Bearer " + token;
-      localStorage.setItem("access_token", token);
+      setToken(token);
       return token;
     } else {
       localStorage.clear();
       return null;
     }
   }
-};
+}
