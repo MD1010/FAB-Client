@@ -51,7 +51,6 @@ export default function HomePage({
 
   return (
     <div className={classes.root}>
-      <NavBar />
       <Grid
         container
         direction="row"

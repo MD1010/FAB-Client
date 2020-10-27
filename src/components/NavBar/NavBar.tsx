@@ -74,7 +74,6 @@ export default function NavBar() {
             >
               {"Welcome Back " + getLoggedInUser()}
             </Typography>
-
             <AccountCircle fontSize="large" />
           </div>
           <div className={classes.sectionMobile}>

@@ -15,10 +15,8 @@ const interceptor = httpClient.interceptors.response.use(
     return response;
   },
   async (error: AxiosError) => {
-    console.log(error.response?.status);
     let requestConfig = error.config;
     if (error.response?.data.msg === "Token has expired") {
-      console.log("Token expired");
       axios.interceptors.response.eject(interceptor);
       await setNewAccessTokenIfExpired();
       requestConfig.headers = httpClient.defaults.headers;

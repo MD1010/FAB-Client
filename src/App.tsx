@@ -9,6 +9,7 @@ import "./App.css";
 import HomePage from "./components/HomePage/HomePage";
 import LoginPage from "./components/Login/LoginPage";
 import ManageAccounts from "./components/ManageAccounts/ManageAccounts";
+import NavBar from "./components/NavBar/NavBar";
 import GuardedRoute from "./components/shared/GuardedRoute";
 import AccountProvider from "./context/AccountsContext";
 import EntitiesContextProvider from "./context/EntitiesContext";
@@ -16,6 +17,9 @@ import { isUserLoggedIn } from "./services/auth";
 import { setNewAccessTokenIfExpired } from "./services/jwt";
 
 const App = () => {
+  console.log("app is loaded!!!!!");
+
+  console.log("is logged in app ?", isUserLoggedIn());
   useEffect(() => {
     (async () => await setNewAccessTokenIfExpired())();
   }, []);

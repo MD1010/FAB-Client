@@ -20,8 +20,6 @@ export function getTokenIdentity(token: string | null): boolean {
 }
 
 const refreshToken = async () => {
-  console.log("refresh->", getLoggedInUser());
-
   const [data] = await makeRequest({
     url: `${REFRESH_TOKEN}`,
     method: RequestMethod.POST,
@@ -34,8 +32,6 @@ export async function setNewAccessTokenIfExpired() {
   const token = getToken();
   if (!token) return null;
   if (isAccessTokenExpired(token)) {
-    console.log("refreshing token...");
-
     const token = await refreshToken();
 
     if (token) {

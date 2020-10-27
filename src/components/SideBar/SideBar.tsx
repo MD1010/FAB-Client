@@ -70,9 +70,14 @@ export default function SideBar() {
             <ListItem
               onClick={() => {
                 switch (listItem.itemName) {
+                  case "My Accounts": {
+                    history.push("/accounts");
+                    break;
+                  }
                   case "Log Out": {
                     localStorage.clear();
                     history.push("/");
+                    break;
                   }
                 }
               }}

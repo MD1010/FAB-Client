@@ -23,7 +23,6 @@ const ManageAccounts: FC = () => {
   useEffect(() => {
     const initiData = async () => {
       const accounts = await fetchAccounts();
-      console.log(accounts);
 
       accountsContext.dispatch({
         type: ACCOUNTS_ACTIONS.FETCH_ACCOUNTS,
@@ -72,9 +71,7 @@ const ManageAccounts: FC = () => {
       url: ACCOUNTS_ENDPOINT,
     });
     if (error) {
-      console.log((error as AxiosError).request);
-
-      console.log(error);
+      throw error;
     }
     if (accountsFetched) {
       const eaAccounts: EaAccount[] = accountsFetched.map((acc) => {

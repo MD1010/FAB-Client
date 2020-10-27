@@ -7,13 +7,12 @@ import {
 
 export function isUserLoggedIn() {
   // if access token is not expired or refreshed it will be returned
-  console.log("isUserLoggedIn");
+  console.log("isUserLoggedIn", !!getToken());
 
   return !!getToken();
 }
 export function getLoggedInUser() {
   const token = getToken();
-  console.log("get identity", token);
 
   return token && getTokenIdentity(token);
 }

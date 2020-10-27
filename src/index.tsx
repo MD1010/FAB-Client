@@ -4,7 +4,6 @@ import App from "./App";
 import Spinner from "./components/shared/Spinner";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
-
 ReactDOM.render(
   <>
     <App />

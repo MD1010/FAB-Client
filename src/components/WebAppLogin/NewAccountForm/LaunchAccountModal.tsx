@@ -53,7 +53,6 @@ export default function LaunchAccountModal(props) {
     setIsLoading(true);
     const { res, error } = await props.sendCode(props.email, data.code);
     setIsLoading(false);
-    console.log(error);
     if (error) {
       setLoginResult(null, error.error);
     }

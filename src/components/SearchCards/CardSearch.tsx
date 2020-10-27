@@ -25,7 +25,6 @@ const CardSearch: FC = () => {
   const classes = useStyles();
 
   const onChange = (selectedCard) => {
-    console.log(selectedCard);
     setOpen(false);
     isSelected.current = true;
   };
