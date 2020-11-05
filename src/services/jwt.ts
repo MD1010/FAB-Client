@@ -15,7 +15,7 @@ export function isAccessTokenExpired(token: string | null): boolean {
   if (!token) return true;
   return jwtDecode(token).exp <= Date.now() / 1000;
 }
-export function getTokenIdentity(token: string | null): boolean {
+export function getTokenIdentity(token: string | null): string | null {
   return token ? jwtDecode(token).identity : null;
 }
 

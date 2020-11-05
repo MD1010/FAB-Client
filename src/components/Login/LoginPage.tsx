@@ -1,7 +1,9 @@
 import { Button, TextField } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { AppContext } from "src/context/AppContext";
+import { getLoggedInUser } from "src/services/auth";
 import { setToken } from "src/services/jwt";
 import { makeRequest } from "src/services/request";
 import { RequestMethod } from "src/types/RequestMethod";
@@ -9,6 +11,7 @@ import { LOGIN_ENDPOINT } from "../../consts/endpoints";
 import "./LoginForm.style.scss";
 
 export default function LoginPage() {
+  const { setLoggedInUser } = useContext(AppContext);
   const { register, handleSubmit, errors } = useForm();
   const history = useHistory();
   const [loginError, setLoginError] = useState("");
@@ -27,6 +30,7 @@ export default function LoginPage() {
       //   localStorage.clear();
       // }
       setToken(data.access_token);
+      setLoggedInUser(getLoggedInUser());
       // localStorage.setItem("user", username);
       history.push("/");
     } else {

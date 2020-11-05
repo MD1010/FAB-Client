@@ -4,8 +4,9 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import React from "react";
-import { getLoggedInUser } from "src/services/auth";
+import React, { useContext } from "react";
+import { AppContext } from "src/context/AppContext";
+import { getLoggedInUser, isUserLoggedIn } from "src/services/auth";
 import SideBar from "../SideBar/SideBar";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -47,6 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function NavBar() {
+  const { loggedInUser } = useContext(AppContext);
   const classes = useStyles();
   return (
     <div className={classes.grow}>
@@ -72,7 +74,7 @@ export default function NavBar() {
               color="inherit"
               noWrap
             >
-              {"Welcome Back " + getLoggedInUser()}
+              {"Welcome Back " + loggedInUser}
             </Typography>
             <AccountCircle fontSize="large" />
           </div>

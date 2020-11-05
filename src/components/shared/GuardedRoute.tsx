@@ -4,6 +4,8 @@ import { isUserLoggedIn } from "src/services/auth";
 import { setNewAccessTokenIfExpired } from "src/services/jwt";
 import NavBar from "../NavBar/NavBar";
 const GuardedRoute = (props: RouteProps) => {
+  console.log("from guarded");
+
   const isAuth = isUserLoggedIn();
 
   const { comp: Component } = props;
@@ -11,7 +13,6 @@ const GuardedRoute = (props: RouteProps) => {
     if (Component) {
       return (
         <>
-          {isUserLoggedIn() ? <NavBar /> : null}
           <Route
             {...props}
             render={(props) => <Component {...props} />}
@@ -21,7 +22,6 @@ const GuardedRoute = (props: RouteProps) => {
     } else {
       return (
         <>
-          {isUserLoggedIn() ? <NavBar /> : null}
           <Route {...props}></Route>
         </>
       );
@@ -29,7 +29,6 @@ const GuardedRoute = (props: RouteProps) => {
   } else {
     return (
       <>
-        {isUserLoggedIn() ? <NavBar /> : null}
         <Route>
           <Redirect to="/login" />
         </Route>

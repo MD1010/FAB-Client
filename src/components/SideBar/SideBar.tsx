@@ -12,8 +12,9 @@ import {
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MenuIcon from "@material-ui/icons/Menu";
-import React from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { AppContext } from "src/context/AppContext";
 import { v4 as uuidv4 } from "uuid";
 import { IlistItem } from "./Ilist.interfaces";
 import { listItems } from "./listItems";
@@ -35,6 +36,7 @@ export default function SideBar() {
   const theme = useTheme();
   const classes = useStyles();
   const history = useHistory();
+  const { setLoggedInUser } = useContext(AppContext);
   const toggleDrawer = (open: boolean) => (
     event: React.KeyboardEvent | React.MouseEvent
   ) => {
@@ -75,6 +77,7 @@ export default function SideBar() {
                     break;
                   }
                   case "Log Out": {
+                    setLoggedInUser(null);
                     localStorage.clear();
                     history.push("/");
                     break;

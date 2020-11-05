@@ -11,8 +11,7 @@ export function isUserLoggedIn() {
 
   return !!getToken();
 }
-export function getLoggedInUser() {
+export function getLoggedInUser(): string | null {
   const token = getToken();
-
-  return token && getTokenIdentity(token);
+  return token ? getTokenIdentity(token) : null;
 }

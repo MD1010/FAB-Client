@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -12,11 +12,14 @@ import ManageAccounts from "./components/ManageAccounts/ManageAccounts";
 import NavBar from "./components/NavBar/NavBar";
 import GuardedRoute from "./components/shared/GuardedRoute";
 import AccountProvider from "./context/AccountsContext";
+import { AppContext } from "./context/AppContext";
 import EntitiesContextProvider from "./context/EntitiesContext";
 import { isUserLoggedIn } from "./services/auth";
 import { setNewAccessTokenIfExpired } from "./services/jwt";
 
 const App = () => {
+  const { loggedInUser } = useContext(AppContext);
+  console.log(loggedInUser);
   console.log("app is loaded!!!!!");
 
   console.log("is logged in app ?", isUserLoggedIn());
@@ -24,8 +27,11 @@ const App = () => {
     (async () => await setNewAccessTokenIfExpired())();
   }, []);
 
+  console.log("rendered");
+
   return (
     <Router>
+      {loggedInUser ? <NavBar /> : null}
       <Switch>
         <GuardedRoute exact path="/home" comp={HomePage} />
         <GuardedRoute exact path="/" comp={HomePage} />
@@ -33,7 +39,7 @@ const App = () => {
           exact
           path="/login"
           render={(props) =>
-            isUserLoggedIn() ? <Redirect to="/" /> : <LoginPage />
+            loggedInUser ? <Redirect to="/" /> : <LoginPage />
           }
         />
 
