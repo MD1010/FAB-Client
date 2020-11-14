@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import React, { useContext } from "react";
 import { AppContext } from "src/context/AppContext";
-import { getLoggedInUser, isUserLoggedIn } from "src/services/auth";
+import { getLoggedInUser } from "src/services/auth";
 import SideBar from "../SideBar/SideBar";
 
 const useStyles = makeStyles((theme: Theme) =>

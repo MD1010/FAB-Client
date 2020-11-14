@@ -1,17 +1,14 @@
+import { useContext } from "react";
+import { AppContext } from "src/context/AppContext";
 import {
   getTokenIdentity,
   setNewAccessTokenIfExpired,
   isAccessTokenExpired,
   getToken,
+  TokenType,
 } from "./jwt";
 
-export function isUserLoggedIn() {
-  // if access token is not expired or refreshed it will be returned
-  console.log("isUserLoggedIn", !!getToken());
-
-  return !!getToken();
-}
 export function getLoggedInUser(): string | null {
-  const token = getToken();
+  const token = getToken(TokenType.ACCESS);
   return token ? getTokenIdentity(token) : null;
 }

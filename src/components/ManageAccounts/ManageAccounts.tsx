@@ -1,7 +1,6 @@
 import { Backdrop, Modal } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import React, { FC, useContext, useEffect, useState } from "react";
-import { makeRequest } from "src/services/request";
 import {
   ACCOUNTS_ENDPOINT,
   ADD_ACCOUNT_ENDPOINT,
@@ -9,11 +8,11 @@ import {
 } from "src/consts/endpoints";
 import { AccountsContext, ACCOUNTS_ACTIONS } from "src/context/AccountsContext";
 import EaAccount, { EaAccountStatus } from "src/interfaces/EaAccount";
+import { makeRequest } from "src/services/request";
 import { RequestMethod } from "src/types/RequestMethod";
 import AccountComp from "../Account/AccountComp";
 import AddAccountModal from "../AddAccountModal/AddAccountModal";
 import "./ManageAccounts.css";
-import { AxiosError } from "axios";
 
 const ManageAccounts: FC = () => {
   const [isOpen, setOpen] = useState<boolean>(false);

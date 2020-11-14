@@ -1,15 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
-import { isUserLoggedIn } from "src/services/auth";
+import { AppContext } from "src/context/AppContext";
 import { setNewAccessTokenIfExpired } from "src/services/jwt";
 import NavBar from "../NavBar/NavBar";
+
 const GuardedRoute = (props: RouteProps) => {
-  console.log("from guarded");
-
-  const isAuth = isUserLoggedIn();
-
+  const { loggedInUser, setLoggedInUser } = useContext(AppContext);
   const { comp: Component } = props;
-  if (isAuth) {
+  if (loggedInUser) {
     if (Component) {
       return (
         <>

@@ -2,13 +2,11 @@ import axios, { AxiosError } from "axios";
 import { toLength } from "lodash";
 import { trackPromise } from "react-promise-tracker";
 import { RequestMethod } from "src/types/RequestMethod";
-import { getToken, setNewAccessTokenIfExpired } from "./jwt";
+import { getToken, setNewAccessTokenIfExpired, TokenType } from "./jwt";
 
 export const httpClient = axios.create();
-const token = getToken();
-if (token) httpClient.defaults.headers["Authorization"] = "Bearer " + token;
+
 httpClient.defaults.timeout = 5000;
-httpClient.defaults.withCredentials = true;
 
 const interceptor = httpClient.interceptors.response.use(
   (response) => {

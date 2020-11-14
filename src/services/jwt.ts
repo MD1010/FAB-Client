@@ -5,11 +5,15 @@ import { RequestMethod } from "src/types/RequestMethod";
 import { getLoggedInUser } from "./auth";
 import { httpClient, makeRequest } from "./request";
 
-export function setToken(token: string) {
-  return localStorage.setItem("access_token", token);
+export enum TokenType {
+  ACCESS = "access_token",
+  REFRESH = "refresh_token",
 }
-export function getToken() {
-  return localStorage.getItem("access_token");
+export function setToken(type: TokenType, token: string) {
+  return localStorage.setItem(type, token);
+}
+export function getToken(type: TokenType) {
+  return localStorage.getItem(type);
 }
 export function isAccessTokenExpired(token: string | null): boolean {
   if (!token) return true;
@@ -24,19 +28,20 @@ const refreshToken = async () => {
     url: `${REFRESH_TOKEN}`,
     method: RequestMethod.POST,
     body: { username: getLoggedInUser() },
+    headers: { Authorization: `Bearer ${getToken(TokenType.REFRESH)}` },
   });
 
   return data ? data.access_token : null;
 };
 export async function setNewAccessTokenIfExpired() {
-  const token = getToken();
+  const token = getToken(TokenType.ACCESS);
   if (!token) return null;
   if (isAccessTokenExpired(token)) {
     const token = await refreshToken();
 
     if (token) {
       httpClient.defaults.headers["Authorization"] = "Bearer " + token;
-      setToken(token);
+      setToken(TokenType.ACCESS, token);
       return token;
     } else {
       localStorage.clear();

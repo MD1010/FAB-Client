@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { AppContext } from "src/context/AppContext";
 import { getLoggedInUser } from "src/services/auth";
-import { setToken } from "src/services/jwt";
-import { makeRequest } from "src/services/request";
+import { setToken, TokenType } from "src/services/jwt";
+import { httpClient, makeRequest } from "src/services/request";
 import { RequestMethod } from "src/types/RequestMethod";
 import { LOGIN_ENDPOINT } from "../../consts/endpoints";
 import "./LoginForm.style.scss";
@@ -26,13 +26,12 @@ export default function LoginPage() {
     });
     setIsSubmitting(false);
     if (data) {
-      // if (localStorage.getItem("user")) {
-      //   localStorage.clear();
-      // }
-      setToken(data.access_token);
+      setToken(TokenType.ACCESS, data.access_token);
+      setToken(TokenType.REFRESH, data.refresh_token);
+      httpClient.defaults.headers["Authorization"] =
+        "Bearer " + data.access_token;
       setLoggedInUser(getLoggedInUser());
-      // localStorage.setItem("user", username);
-      history.push("/");
+      // history.push("/");
     } else {
       setLoginError(error.msg || error);
     }

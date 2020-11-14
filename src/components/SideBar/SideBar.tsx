@@ -1,8 +1,7 @@
-import { ListItemIcon, ListItemText } from "@material-ui/core";
+import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
-import ListItem from "@material-ui/core/ListItem";
 import {
   createStyles,
   makeStyles,
@@ -13,11 +12,11 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MenuIcon from "@material-ui/icons/Menu";
 import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { AppContext } from "src/context/AppContext";
 import { v4 as uuidv4 } from "uuid";
-import { IlistItem } from "./Ilist.interfaces";
-import { listItems } from "./listItems";
+import { IlistItem, listItems } from "./listItems";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 export default function SideBar() {
   const useStyles = makeStyles((theme: Theme) =>
@@ -66,33 +65,22 @@ export default function SideBar() {
       <div onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
         {listItems.map((listItem: IlistItem, index) => (
           <div key={uuidv4()}>
-            {listItem.itemName === "Settings" && (
-              <Divider key={listItem.itemName} />
-            )}
-            <ListItem
-              onClick={() => {
-                switch (listItem.itemName) {
-                  case "My Accounts": {
-                    history.push("/accounts");
-                    break;
-                  }
-                  case "Log Out": {
-                    setLoggedInUser(null);
-                    localStorage.clear();
-                    history.push("/");
-                    break;
-                  }
-                }
-              }}
-              button
-            >
-              <ListItemIcon>
-                <listItem.itemIcon />
-              </ListItemIcon>
-              <ListItemText primary={listItem.itemName} />
-            </ListItem>
+            <Link to={listItem.linkPath}>
+              <ListItem button>
+                <ListItemIcon>
+                  <listItem.itemIcon />
+                </ListItemIcon>
+                <ListItemText primary={listItem.itemName} />
+              </ListItem>
+            </Link>
           </div>
         ))}
+        <ListItem button onClick={() => setLoggedInUser(null)}>
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
+        </ListItem>
       </div>
     </>
   );

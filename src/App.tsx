@@ -14,20 +14,9 @@ import GuardedRoute from "./components/shared/GuardedRoute";
 import AccountProvider from "./context/AccountsContext";
 import { AppContext } from "./context/AppContext";
 import EntitiesContextProvider from "./context/EntitiesContext";
-import { isUserLoggedIn } from "./services/auth";
-import { setNewAccessTokenIfExpired } from "./services/jwt";
 
 const App = () => {
-  const { loggedInUser } = useContext(AppContext);
-  console.log(loggedInUser);
-  console.log("app is loaded!!!!!");
-
-  console.log("is logged in app ?", isUserLoggedIn());
-  useEffect(() => {
-    (async () => await setNewAccessTokenIfExpired())();
-  }, []);
-
-  console.log("rendered");
+  const { loggedInUser, setLoggedInUser } = useContext(AppContext);
 
   return (
     <Router>

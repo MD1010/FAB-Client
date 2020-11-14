@@ -5,7 +5,6 @@ import NavBar from "./components/NavBar/NavBar";
 import Spinner from "./components/shared/Spinner";
 import AppProvider from "./context/AppContext";
 import "./index.css";
-import { isUserLoggedIn } from "./services/auth";
 import * as serviceWorker from "./serviceWorker";
 ReactDOM.render(
   <AppProvider>
